@@ -1,0 +1,1488 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Swarup's Science Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: one centred column (max 880px) with a floating pill tab bar. Every tab owns one colour so a child always knows where he is. */
+:root{
+  --bg:#EDF6F8; --surface:#FFFFFF; --surface-2:#E0EEF2; --ink:#11304A; --ink-soft:#4A6478; --line:#CBDDE5;
+  --green:#17824F; --green-bg:#DCF4E7; --on-green:#FFFFFF;
+  --blue:#3659CC; --blue-bg:#E1E8FC; --on-blue:#FFFFFF;
+  --coral:#C23520; --coral-bg:#FFE2DB; --on-coral:#FFFFFF;
+  --sun:#F2B01E; --sun-bg:#FFF0C7; --on-sun:#3A2800; --sun-ink:#7A5200;
+  --violet:#6A47D6; --violet-bg:#E9E2FC; --on-violet:#FFFFFF;
+  --egg:#FFF4D9; --egg-line:#E3C98C; --shell:#E8CDA0; --albumen:#FFFDF5; --yolk:#FFAE1A;
+  --good:#17824F; --bad:#C23520;
+  --shadow:0 2px 0 rgba(17,48,74,.07),0 10px 24px -14px rgba(17,48,74,.35);
+  --f-display:'Baloo 2','Nunito',system-ui,sans-serif;
+  --f-body:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1A26; --surface:#13293A; --surface-2:#1A3448; --ink:#E9F4F9; --ink-soft:#A0B9C9; --line:#2A4A60;
+    --green:#4FD08C; --green-bg:#12382A; --on-green:#062218;
+    --blue:#8DA8FF; --blue-bg:#1A2A58; --on-blue:#0A1030;
+    --coral:#FF8D7A; --coral-bg:#4A2019; --on-coral:#2B0A04;
+    --sun:#FFCB52; --sun-bg:#4A3A10; --on-sun:#2B1D00; --sun-ink:#FFD777;
+    --violet:#B8A3FF; --violet-bg:#2E2560; --on-violet:#150B3A;
+    --egg:#F6E8C6; --egg-line:#CDB57C; --good:#4FD08C; --bad:#FF8D7A;
+    --shadow:0 10px 24px -14px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1A26; --surface:#13293A; --surface-2:#1A3448; --ink:#E9F4F9; --ink-soft:#A0B9C9; --line:#2A4A60;
+  --green:#4FD08C; --green-bg:#12382A; --on-green:#062218;
+  --blue:#8DA8FF; --blue-bg:#1A2A58; --on-blue:#0A1030;
+  --coral:#FF8D7A; --coral-bg:#4A2019; --on-coral:#2B0A04;
+  --sun:#FFCB52; --sun-bg:#4A3A10; --on-sun:#2B1D00; --sun-ink:#FFD777;
+  --violet:#B8A3FF; --violet-bg:#2E2560; --on-violet:#150B3A;
+  --egg:#F6E8C6; --egg-line:#CDB57C; --good:#4FD08C; --bad:#FF8D7A;
+  --shadow:0 10px 24px -14px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+body{
+  background:var(--bg); color:var(--ink); font:500 17px/1.55 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:18px 130px;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(32px,8vw,48px);font-weight:800}
+h2{font-size:clamp(25px,6vw,32px);font-weight:800}
+h3{font-size:21px;font-weight:700}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.eyebrow{font:800 13px/1.3 var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--ct,var(--ink-soft))}
+.lead{font-size:19px;color:var(--ink-soft)}
+.muted{color:var(--ink-soft)}
+
+/* colour themes per area */
+.t-green{--c:var(--green);--cbg:var(--green-bg);--on:var(--on-green);--ct:var(--green)}
+.t-blue{--c:var(--blue);--cbg:var(--blue-bg);--on:var(--on-blue);--ct:var(--blue)}
+.t-coral{--c:var(--coral);--cbg:var(--coral-bg);--on:var(--on-coral);--ct:var(--coral)}
+.t-sun{--c:var(--sun);--cbg:var(--sun-bg);--on:var(--on-sun);--ct:var(--sun-ink)}
+.t-violet{--c:var(--violet);--cbg:var(--violet-bg);--on:var(--on-violet);--ct:var(--violet)}
+
+/* buttons, chips */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:14px;border:2px solid var(--c,var(--green));background:var(--c,var(--green));color:var(--on,var(--on-green));font-weight:800;cursor:pointer;transition:transform .12s}
+.btn:active{transform:translateY(2px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.sm{min-height:40px;padding:6px 14px;font-size:15px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin}
+.chip{flex:none;min-height:42px;padding:6px 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--c,var(--green));border-color:var(--c,var(--green));color:var(--on,var(--on-green))}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);min-width:0}
+.card.tint{background:var(--cbg);border-color:transparent;box-shadow:none}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+
+/* ---------- home ---------- */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;background:var(--cbg);border-radius:28px;padding:clamp(18px,4vw,34px)}
+.hero-text{display:flex;flex-direction:column;gap:14px;min-width:0}
+.egg-stage{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.egg{position:relative;width:min(220px,60vw);aspect-ratio:200/240;border:0;background:none;padding:0;cursor:pointer}
+.egg-svg{width:100%;height:100%;overflow:visible}
+.egg .shell{fill:var(--egg);stroke:var(--egg-line);stroke-width:4}
+.egg .speck circle{fill:var(--egg-line);opacity:.7}
+.egg-top{transform-origin:100px 130px;transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
+.egg.open .egg-top{transform:translate(-18px,-38px) rotate(-20deg)}
+.egg:not(.open){animation:wobble 2.6s ease-in-out infinite;transform-origin:50% 90%}
+.baby{position:absolute;left:50%;top:50%;font-size:76px;line-height:1;opacity:0;transform:translate(-50%,-10%) scale(.3);transition:transform .5s cubic-bezier(.3,1.6,.5,1) .12s,opacity .2s}
+.egg.open .baby{opacity:1;transform:translate(-50%,-72%) scale(1)}
+.egg-card{background:var(--surface);border-radius:14px;padding:12px 14px;font-size:16px;text-align:center;min-height:84px;width:100%;max-width:340px}
+@keyframes wobble{0%,60%,100%{transform:rotate(0)}68%{transform:rotate(-5deg)}76%{transform:rotate(5deg)}84%{transform:rotate(-3deg)}92%{transform:rotate(2deg)}}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.go-card{display:flex;flex-direction:column;gap:8px;text-align:left;padding:18px;border-radius:var(--r);border:0;background:var(--cbg);cursor:pointer;min-width:0;transition:transform .15s}
+.go-card:hover{transform:translateY(-3px)}
+.go-card .ic{width:44px;height:44px;border-radius:12px;background:var(--c);color:var(--on);display:grid;place-items:center}
+.go-card h3{color:var(--ink)}
+.go-card p{color:var(--ink-soft);font-size:15px;line-height:1.4}
+.two-ways{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.way{border-radius:var(--r);padding:18px;background:var(--cbg);display:flex;flex-direction:column;gap:8px;min-width:0}
+.way .big{font-size:42px;line-height:1}
+.fact{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.fact p{flex:1 1 260px;font-size:19px;font-weight:700}
+
+/* ---------- tab bar ---------- */
+.tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;pointer-events:none;z-index:20;
+  padding:8px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.tabs{pointer-events:auto;width:min(100%,580px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:6px;background:var(--surface);border:2px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 6px;border:0;border-radius:20px;background:transparent;cursor:pointer;font:800 12px/1.1 var(--f-body);color:var(--ink-soft);min-width:0}
+.tab svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{background:var(--c);color:var(--on)}
+
+/* ---------- learn ---------- */
+.subnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:6px 0}
+.lsec{display:flex;flex-direction:column;gap:14px;scroll-margin-top:70px}
+.lsec>.sec-head h2{color:var(--ink)}
+.remember{display:flex;gap:12px;align-items:flex-start;background:var(--cbg);border-radius:14px;padding:14px 16px;font-weight:700}
+.remember b{flex:none;background:var(--c);color:var(--on);border-radius:8px;padding:2px 10px;font:800 13px/1.6 var(--f-body);letter-spacing:.06em;text-transform:uppercase}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border-radius:16px;background:var(--surface);border:2px solid var(--line);font-weight:800;text-align:center}
+.tile span.e{font-size:36px;line-height:1}
+.tile small{font-weight:600;color:var(--ink-soft);font-size:13px}
+.explorer{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:18px;align-items:center}
+.egg-x{width:100%;max-width:260px;margin:0 auto;display:block}
+.egg-x .part{cursor:pointer;transition:opacity .2s}
+.egg-x[data-sel="shell"] .p-shell,.egg-x[data-sel="albumen"] .p-albumen,.egg-x[data-sel="yolk"] .p-yolk,.egg-x[data-sel="spot"] .p-spot{stroke:var(--ink);stroke-width:5}
+.egg-x[data-sel="yolk"] .p-spot,.egg-x[data-sel="albumen"] .p-yolk{opacity:.85}
+.baby svg{width:76px;height:76px;display:block}
+.part-info{display:flex;flex-direction:column;gap:12px;min-width:0}
+.part-info .box{background:var(--cbg);border-radius:14px;padding:14px 16px;min-height:130px}
+.part-info h3{color:var(--ct)}
+/* life cycle ring */
+.lc{display:flex;flex-direction:column;gap:14px;align-items:center}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ring{position:relative;width:min(100%,420px);aspect-ratio:1}
+.ring-svg{position:absolute;inset:0;width:100%;height:100%}
+.ring-svg path{fill:none;stroke:var(--ink-soft);stroke-width:.9;stroke-dasharray:2.2 1.8;opacity:.8}
+.ring-center{position:absolute;inset:31%;display:grid;place-items:center;text-align:center;font:800 clamp(14px,3.6vw,18px)/1.15 var(--f-display);color:var(--ct)}
+.node{position:absolute;width:23%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:18px;border:2px solid var(--line);background:var(--surface);cursor:pointer;min-width:0}
+.node.on{border-color:var(--c);background:var(--cbg);box-shadow:0 0 0 3px var(--c)}
+.node .vis{width:min(52px,11vw);height:min(52px,11vw);display:grid;place-items:center;font-size:clamp(26px,7vw,40px);line-height:1}
+.node .vis svg{width:100%;height:100%}
+.node .vis.small{font-size:clamp(18px,4.6vw,26px)}
+.node .cap{font:800 clamp(10.5px,2.8vw,12.5px)/1.15 var(--f-body);text-align:center;overflow-wrap:anywhere}
+.lc-panel{width:100%;background:var(--cbg);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-height:150px}
+.lc-panel h3{color:var(--ink)}
+.kw{align-self:flex-start;background:var(--c);color:var(--on);border-radius:999px;padding:2px 12px;font-weight:800;font-size:14px}
+.lc-ctrl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp>div{border-radius:14px;padding:14px;background:var(--cbg);min-width:0}
+.cmp h4{font-size:18px;margin-bottom:6px;color:var(--ink)}
+.cmp ul,.bul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.word{display:flex;flex-direction:column;gap:6px}
+.word h4{font-size:22px;color:var(--ct)}
+.word .kid{background:var(--cbg);border-radius:10px;padding:8px 12px;font-weight:700;font-size:15.5px}
+.story{display:flex;flex-direction:column;gap:12px}
+.moral{background:var(--c);color:var(--on);border-radius:14px;padding:14px 18px;font:800 20px/1.25 var(--f-display)}
+
+/* ---------- Q&A ---------- */
+.qa-group{display:flex;flex-direction:column;gap:12px}
+.qa-group>.sec-head{padding-left:14px;border-left:6px solid var(--c)}
+.qa{display:flex;flex-direction:column;gap:12px}
+.qa-head{display:flex;gap:12px;align-items:flex-start}
+.qa-n{flex:none;min-width:38px;height:38px;border-radius:12px;background:var(--cbg);color:var(--ct);display:grid;place-items:center;font:800 15px var(--f-display);padding:0 6px}
+.qa-q{font-weight:700;font-size:18px;padding-top:6px}
+.blank{display:inline-block;min-width:110px;border-bottom:3px dashed var(--ink-soft);text-align:center;font-weight:800;color:var(--ink-soft)}
+.qa.open .blank{border-bottom-style:solid;color:var(--good);border-color:var(--good)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;min-height:48px;padding:8px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
+.opt i{flex:none;width:26px;height:26px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;font:800 13px var(--f-body);font-style:normal}
+.opt.right{border-color:var(--good);background:var(--green-bg)}
+.opt.right i{background:var(--good);color:var(--on-green)}
+.opt.wrong{border-color:var(--bad);background:var(--coral-bg)}
+.opt.wrong i{background:var(--bad);color:var(--on-coral)}
+.qa-a{display:none;background:var(--green-bg);border-radius:14px;padding:12px 16px;flex-direction:column;gap:8px}
+.qa.open .qa-a{display:flex}
+.qa-a b.lab{font:800 13px var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--good)}
+.qa-a .ans{font-weight:800;font-size:19px}
+.tag-extra{align-self:flex-start;font:800 12px var(--f-body);letter-spacing:.06em;text-transform:uppercase;background:var(--sun-bg);color:var(--sun-ink);padding:2px 10px;border-radius:999px}
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;min-width:520px;width:100%;font-size:15.5px}
+.tbl th,.tbl td{border:2px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;background:var(--surface)}
+.tbl th{background:var(--surface-2);font-family:var(--f-display);font-size:17px}
+.cmap{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.cm-top{align-self:center;background:var(--coral);color:var(--on-coral);padding:8px 18px;border-radius:12px;font:800 17px var(--f-display);text-align:center}
+.cm-cols{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+.cm-col{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:0}
+.cm-pill{align-self:center;background:var(--green);color:var(--on-green);border-radius:10px;padding:4px 14px;font-weight:800;font-size:15px}
+.cm-box{align-self:center;background:var(--blue);color:var(--on-blue);border-radius:10px;padding:6px 14px;font-weight:800;text-align:center}
+.cm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.cm-b{background:var(--sun);color:var(--on-sun);border-radius:10px;padding:5px 8px;font-weight:800;text-align:center;font-size:15px}
+.cm-ex{border:2px dashed var(--ink-soft);border-radius:10px;padding:6px 8px;font-size:14.5px;margin-top:6px;text-align:center;background:var(--surface)}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.pair{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:12px;padding:8px 12px;font-weight:700}
+.pair .e{font-size:28px}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.flow>div{background:var(--surface);border-radius:12px;padding:10px 12px}
+.flow b{color:var(--ct)}
+
+/* ---------- Quiz ---------- */
+.q-top{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.bar{height:12px;border-radius:99px;background:var(--surface-2);overflow:hidden;flex:1 1 140px}
+.bar i{display:block;height:100%;background:var(--c);border-radius:99px;transition:width .3s}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:30px;height:30px;border-radius:9px;border:2px solid var(--line);background:var(--surface);font:800 12px var(--f-body);cursor:pointer;padding:0}
+.dot.cur{border-color:var(--ink)}
+.dot.ok{background:var(--good);border-color:var(--good);color:var(--on-green)}
+.dot.no{background:var(--bad);border-color:var(--bad);color:var(--on-coral)}
+.q-card{display:flex;flex-direction:column;gap:16px}
+.q-text{font:700 clamp(21px,5vw,26px)/1.25 var(--f-display)}
+.q-opts{display:grid;gap:10px}
+.q-opt{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left;font-weight:700;font-size:18px;cursor:pointer}
+.q-opt i{flex:none;width:32px;height:32px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;font:800 15px var(--f-body);font-style:normal}
+.q-opt:not(:disabled):hover{border-color:var(--c)}
+.q-opt:disabled{cursor:default}
+.q-opt.right{border-color:var(--good);background:var(--green-bg)}
+.q-opt.right i{background:var(--good);color:var(--on-green)}
+.q-opt.wrong{border-color:var(--bad);background:var(--coral-bg)}
+.q-opt.wrong i{background:var(--bad);color:var(--on-coral)}
+.fb{border-radius:14px;padding:12px 16px;font-weight:700}
+.fb.ok{background:var(--green-bg)} .fb.no{background:var(--coral-bg)}
+.fb b{display:block;font:800 19px var(--f-display)}
+.sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.size{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:var(--r);background:var(--cbg);border:0;text-align:left;cursor:pointer}
+.size b{font:800 34px/1 var(--f-display);color:var(--ct)}
+.stars{display:flex;gap:6px;justify-content:center;font-size:0}
+.stars svg{width:54px;height:54px;fill:var(--surface-2);stroke:var(--line);stroke-width:1.5}
+.stars svg.on{fill:var(--sun);stroke:var(--sun-ink)}
+.score{font:800 clamp(44px,12vw,72px)/1 var(--f-display);text-align:center}
+.miss{display:flex;flex-direction:column;gap:8px}
+.miss>div{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 14px}
+.miss .rt{color:var(--good);font-weight:800}
+
+/* ---------- Play ---------- */
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.g-card{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:var(--r);background:var(--cbg);border:0;text-align:left;cursor:pointer;min-width:0;transition:transform .15s}
+.g-card:hover{transform:translateY(-3px)}
+.g-card .e{font-size:40px;line-height:1}
+.g-card p{color:var(--ink-soft);font-size:15px;line-height:1.4}
+.g-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.big-e{font-size:96px;line-height:1;text-align:center}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{min-height:64px;font-size:20px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mcol{display:flex;flex-direction:column;gap:10px;min-width:0}
+.mbtn{min-height:56px;padding:8px 12px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:800;font-size:17px;cursor:pointer;display:flex;gap:10px;align-items:center;justify-content:center;text-align:center}
+.mbtn.sel{border-color:var(--c);background:var(--cbg);box-shadow:0 0 0 3px var(--c)}
+.mbtn.done{border-color:var(--good);background:var(--green-bg);cursor:default}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.slots{display:flex;gap:8px;flex-wrap:wrap;min-height:84px}
+.slot{width:calc(20% - 7px);min-width:62px;min-height:84px;border:2px dashed var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;font-weight:800;font-size:12px;text-align:center}
+.slot.f{border-style:solid;border-color:var(--good);background:var(--green-bg)}
+.slot .vis{width:40px;height:40px;display:grid;place-items:center;font-size:30px;line-height:1}
+.slot .vis svg{width:100%;height:100%}
+.pool{display:flex;gap:10px;flex-wrap:wrap}
+.pbtn{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:92px;padding:8px 10px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:800;font-size:13px;cursor:pointer}
+.pbtn .vis{width:46px;height:46px;display:grid;place-items:center;font-size:34px;line-height:1}
+.pbtn .vis svg{width:100%;height:100%}
+.xw-wrap{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:18px;align-items:start}
+.xw{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;width:100%}
+.xc{position:relative;aspect-ratio:1}
+.xc input{width:100%;height:100%;padding:0;text-align:center;text-transform:uppercase;font:800 clamp(18px,6vw,28px) var(--f-display);border:2px solid var(--ink-soft);border-radius:8px;background:var(--surface);color:var(--ink);caret-color:transparent}
+.xc input.act{background:var(--violet-bg)}
+.xc input.cur{border-color:var(--violet);box-shadow:0 0 0 3px var(--violet)}
+.xc input.ok{background:var(--green-bg);border-color:var(--good)}
+.xc input.no{background:var(--coral-bg);border-color:var(--bad)}
+.xn{position:absolute;top:1px;left:4px;font:800 11px var(--f-body);color:var(--ink-soft);pointer-events:none}
+.clues{display:flex;flex-direction:column;gap:8px}
+.clue{display:flex;gap:10px;text-align:left;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700}
+.clue b{color:var(--ct);min-width:28px}
+.rid{display:flex;flex-direction:column;gap:10px}
+.rid input[type=text],.notes{font:600 18px var(--f-body);padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);width:100%;min-height:48px}
+.rid .msg{font-weight:800;min-height:26px}
+.msg.ok{color:var(--good)} .msg.no{color:var(--bad)} .msg.hint{color:var(--ink-soft)}
+.det-q{font:700 clamp(22px,5vw,28px)/1.25 var(--f-display);text-align:center}
+.check{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
+.check input{width:24px;height:24px;accent-color:var(--green);flex:none}
+.confetti{position:fixed;top:-12px;width:10px;height:14px;border-radius:2px;z-index:50;pointer-events:none;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translate(var(--dx),105vh) rotate(720deg);opacity:.9}}
+
+@media (max-width:640px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .explorer,.xw-wrap,.cmp,.cm-cols{grid-template-columns:1fr}
+  .two-ways{grid-template-columns:1fr}
+  .slot{width:calc(33.3% - 6px)}
+}
+@media (max-width:420px){.match{gap:8px}.mbtn{font-size:15px;padding:6px}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* ---- illustration upgrades ---- */
+.scene{display:block;width:100%;height:auto;aspect-ratio:400/130}
+.scene-wrap{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);line-height:0}
+.way .big svg,.tile span.e svg{width:56px;height:56px;display:block}
+.tile span.e{display:grid;place-items:center;min-height:56px}
+.ring-center{inset:29%;font-size:0}
+.ring-art{width:100%;aspect-ratio:1;border-radius:50%;background:var(--cbg);display:grid;place-items:center;padding:10%;animation:pop .35s ease-out}
+.ring-art svg{width:100%;height:100%}
+@keyframes pop{from{transform:scale(.8);opacity:.3}}
+.lc-panel{flex-direction:row;align-items:center;gap:16px}
+.lc-panel .pa{flex:none;width:104px;height:104px;border-radius:20px;background:var(--surface);display:grid;place-items:center;padding:8px}
+.lc-panel .pa svg{width:100%;height:100%}
+.lc-panel .pt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-card .ga{width:56px;height:56px;display:block}
+.ftree{display:flex;flex-direction:column;gap:10px}
+.ft-q{background:var(--blue);color:var(--on-blue);border-radius:14px;padding:10px 14px;font-weight:800;text-align:center}
+.ft-q.s{background:var(--surface);color:var(--ink);border:2px solid var(--blue)}
+.ft-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ft-col{display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--surface-2);border-radius:14px;padding:10px}
+.ft-yn{align-self:flex-start;font:800 13px var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:2px 12px;border-radius:99px}
+.ft-yn.y{background:var(--good);color:var(--on-green)}
+.ft-yn.n{background:var(--bad);color:var(--on-coral)}
+.ft-res{display:flex;align-items:center;gap:8px}
+.ft-card{flex:1;display:flex;align-items:center;gap:8px;background:var(--surface);border:2px solid var(--good);border-radius:14px;padding:6px 10px;font-weight:800;min-width:0}
+.ft-card svg{width:52px;height:52px;flex:none}
+.ft-card .em{font-size:38px;line-height:1;width:52px;text-align:center;flex:none}
+.ft-card b{color:var(--ct)}
+@media (max-width:520px){.ft-cols{grid-template-columns:1fr}.lc-panel{flex-direction:column;align-items:flex-start}}
+</style>
+<main id="view" class="wrap" aria-live="off"></main>
+<nav class="tabbar" aria-label="Main sections"><div class="tabs" id="tabs"></div></nav>
+<script>
+/* ===== ART: flat illustrations (all drawn in a 100x100 box) ===== */
+window.ART = (function () {
+  var g = {};
+  var SHADOW = '<ellipse cx="50" cy="93" rx="30" ry="3.5" fill="#000" opacity=".12"/>';
+
+  g.egg = '<path d="M50 9C68 9 81 38 81 58 81 79 67 91 50 91 33 91 19 79 19 58 19 38 32 9 50 9Z" fill="#FFF3D6" stroke="#D8B46A" stroke-width="3"/>' +
+    '<g fill="#E6C98A"><circle cx="38" cy="62" r="2.4"/><circle cx="60" cy="72" r="2.8"/><circle cx="57" cy="42" r="2"/><circle cx="42" cy="48" r="1.8"/></g>' +
+    '<path d="M36 32Q40 22 47 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".85"/>';
+
+  g.chick = SHADOW +
+    '<path d="M42 84v8M58 84v8M35 93h13M52 93h13" stroke="#F08A24" stroke-width="3.5" stroke-linecap="round" fill="none"/>' +
+    '<circle cx="50" cy="62" r="26" fill="#FFD23F"/><circle cx="50" cy="35" r="19" fill="#FFD23F"/>' +
+    '<ellipse cx="29" cy="64" rx="7" ry="12" fill="#F5B912" transform="rotate(15 29 64)"/><ellipse cx="71" cy="64" rx="7" ry="12" fill="#F5B912" transform="rotate(-15 71 64)"/>' +
+    '<circle cx="43" cy="33" r="3.2" fill="#2B2118"/><circle cx="57" cy="33" r="3.2" fill="#2B2118"/><circle cx="44" cy="32" r="1.1" fill="#fff"/><circle cx="58" cy="32" r="1.1" fill="#fff"/>' +
+    '<path d="M45 39H55L50 47Z" fill="#F08A24"/><circle cx="36" cy="41" r="3.4" fill="#FF9E7A" opacity=".6"/><circle cx="64" cy="41" r="3.4" fill="#FF9E7A" opacity=".6"/>' +
+    '<path d="M46 17Q50 8 52 17M51 16Q57 10 57 18" stroke="#F5B912" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+
+  var HEN_BODY = '<path d="M20 40C8 38 6 54 14 62 20 54 25 50 28 47Z" fill="#8A4A1B"/><path d="M16 36C8 30 8 44 14 50 20 46 24 42 26 40Z" fill="#A85A1E"/>' +
+    '<ellipse cx="48" cy="60" rx="31" ry="25" fill="#C8742B"/><path d="M38 56c10-9 26-7 31 6-9 11-27 10-31-6z" fill="#A85A1E"/>' +
+    '<path d="M62 48C60 38 66 30 72 28" stroke="#C8742B" stroke-width="15" stroke-linecap="round" fill="none"/><circle cx="74" cy="28" r="12.5" fill="#C8742B"/>' +
+    '<circle cx="68" cy="17" r="4.2" fill="#E0392C"/><circle cx="74" cy="14" r="4.8" fill="#E0392C"/><circle cx="80" cy="17" r="4.2" fill="#E0392C"/>' +
+    '<path d="M85 27L96 31L85 35Z" fill="#F2A81D"/><path d="M80 36c4 0 4 9 0 9-4 0-4-9 0-9z" fill="#E0392C"/>' +
+    '<circle cx="77" cy="26" r="2.5" fill="#2B2118"/><circle cx="77.8" cy="25.2" r=".9" fill="#fff"/>';
+  g.hen = SHADOW + '<path d="M44 82v10M58 82v10M37 93h13M52 93h13" stroke="#F2A81D" stroke-width="3.5" stroke-linecap="round" fill="none"/>' + HEN_BODY;
+
+  g.henNest = '<g transform="translate(0 -9)">' + HEN_BODY + '</g>' +
+    '<ellipse cx="20" cy="76" rx="7.5" ry="9.5" fill="#FFF3D6" stroke="#D8B46A" stroke-width="2"/><ellipse cx="82" cy="77" rx="7.5" ry="9.5" fill="#FFF3D6" stroke="#D8B46A" stroke-width="2"/>' +
+    '<path d="M4 66Q50 110 96 66Q50 80 4 66Z" fill="#8B5E34"/><path d="M12 74l20-4M26 84l22-8M50 90l24-9M72 84l16-10M18 70l26 8" stroke="#B98A57" stroke-width="2.2" stroke-linecap="round"/>';
+
+  g.hatching = '<g transform="translate(74 24) rotate(32) scale(.5) translate(-50 -30)"><path d="M18 52L30 40L40 54L50 38L60 54L70 40L82 52C84 26 68 6 50 6 32 6 16 26 18 52Z" fill="#FFF3D6" stroke="#D8B46A" stroke-width="4" stroke-linejoin="round"/></g>' +
+    '<circle cx="46" cy="36" r="18" fill="#FFD23F"/><circle cx="40" cy="33" r="3" fill="#2B2118"/><circle cx="52" cy="33" r="3" fill="#2B2118"/><circle cx="41" cy="32" r="1" fill="#fff"/><circle cx="53" cy="32" r="1" fill="#fff"/><path d="M42 39H50L46 45Z" fill="#F08A24"/>' +
+    '<path d="M42 19Q46 10 48 19" stroke="#F5B912" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+    '<path d="M19 60L30 50L40 62L50 48L60 62L70 50L81 60C83 80 70 92 50 92 30 92 17 80 19 60Z" fill="#FFF3D6" stroke="#D8B46A" stroke-width="3" stroke-linejoin="round"/>' +
+    '<g fill="#E6C98A"><circle cx="34" cy="76" r="2.3"/><circle cx="60" cy="80" r="2.6"/><circle cx="50" cy="70" r="1.8"/></g>';
+
+  g.frog = SHADOW +
+    '<path d="M22 72c-11 3-15 13-9 20h20c0-8-4-15-11-20z" fill="#4FA043"/><path d="M78 72c11 3 15 13 9 20H67c0-8 4-15 11-20z" fill="#4FA043"/>' +
+    '<ellipse cx="50" cy="66" rx="28" ry="24" fill="#5DB84E"/><ellipse cx="50" cy="75" rx="17" ry="14" fill="#D3F0AE"/>' +
+    '<g fill="#4A9A3E"><circle cx="33" cy="58" r="3.4"/><circle cx="66" cy="56" r="3"/><circle cx="28" cy="72" r="2.4"/><circle cx="72" cy="70" r="2.6"/></g>' +
+    '<path d="M34 82l-5 10h14l-3-10z" fill="#4FA043"/><path d="M66 82l5 10H57l3-10z" fill="#4FA043"/>' +
+    '<ellipse cx="50" cy="42" rx="27" ry="18" fill="#5DB84E"/><circle cx="33" cy="27" r="11" fill="#5DB84E"/><circle cx="67" cy="27" r="11" fill="#5DB84E"/>' +
+    '<circle cx="33" cy="26" r="7.2" fill="#fff"/><circle cx="67" cy="26" r="7.2" fill="#fff"/><circle cx="34" cy="27" r="3.8" fill="#1B2B1A"/><circle cx="66" cy="27" r="3.8" fill="#1B2B1A"/><circle cx="35" cy="25.5" r="1.3" fill="#fff"/><circle cx="67" cy="25.5" r="1.3" fill="#fff"/>' +
+    '<path d="M31 49Q50 62 69 49" stroke="#2F7A2E" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="45" cy="41" r="1.3" fill="#2F7A2E"/><circle cx="55" cy="41" r="1.3" fill="#2F7A2E"/>';
+
+  function tad(legs, tail) {
+    var t = tail === 'long' ? '<path d="M44 52Q62 38 94 52Q62 66 44 52Z" fill="#3F6B2B"/>' : tail === 'short' ? '<path d="M44 52Q54 46 66 52Q54 58 44 52Z" fill="#3F6B2B"/>' : '';
+    var l = '';
+    if (legs >= 2) l += '<path d="M46 64L54 78L64 78M42 65L47 80L57 81" stroke="#3F6B2B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    if (legs >= 4) l += '<path d="M24 64L16 76L8 76M28 65L24 79L16 80" stroke="#3F6B2B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    return t + l + '<ellipse cx="32" cy="52" rx="23" ry="18" fill="#4E7F35"/><ellipse cx="32" cy="58" rx="15" ry="9" fill="#8DB65A" opacity=".55"/>' +
+      '<circle cx="21" cy="45" r="5" fill="#fff"/><circle cx="20" cy="45.5" r="2.4" fill="#10261A"/>';
+  }
+  g.tad1 = tad(0, 'long'); g.tad2 = tad(2, 'long'); g.tad3 = tad(4, 'short');
+
+  g.spawn = '<g fill="#D8F3E4" stroke="#3E9A74" stroke-width="2.2"><circle cx="30" cy="30" r="14"/><circle cx="62" cy="26" r="14"/><circle cx="48" cy="58" r="14"/><circle cx="20" cy="66" r="12"/><circle cx="78" cy="62" r="12"/><circle cx="50" cy="84" r="9"/></g>' +
+    '<g fill="#1E3A32"><circle cx="30" cy="30" r="5"/><circle cx="62" cy="26" r="5"/><circle cx="48" cy="58" r="5"/><circle cx="20" cy="66" r="4.4"/><circle cx="78" cy="62" r="4.4"/><circle cx="50" cy="84" r="3.4"/></g>' +
+    '<g fill="#fff" opacity=".7"><circle cx="25" cy="24" r="2.6"/><circle cx="57" cy="20" r="2.6"/><circle cx="43" cy="52" r="2.6"/></g>';
+
+  g.caterpillar = '<path d="M2 80Q50 56 98 80Q50 98 2 80Z" fill="#4FA043"/><path d="M6 80Q50 72 94 80" stroke="#3A8030" stroke-width="2" fill="none"/>' +
+    '<g fill="#8BD04F" stroke="#5E9F2E" stroke-width="2"><circle cx="20" cy="62" r="11"/><circle cx="33" cy="58" r="11"/><circle cx="46" cy="56" r="11"/><circle cx="59" cy="57" r="11"/><circle cx="72" cy="60" r="11"/></g>' +
+    '<g fill="#F2B01E"><circle cx="20" cy="56" r="2.6"/><circle cx="33" cy="52" r="2.6"/><circle cx="46" cy="50" r="2.6"/><circle cx="59" cy="51" r="2.6"/><circle cx="72" cy="54" r="2.6"/></g>' +
+    '<circle cx="84" cy="56" r="13" fill="#E8683A"/><circle cx="80" cy="53" r="3.4" fill="#fff"/><circle cx="90" cy="53" r="3.4" fill="#fff"/><circle cx="81" cy="54" r="1.7" fill="#2B2118"/><circle cx="91" cy="54" r="1.7" fill="#2B2118"/><path d="M80 62Q85 66 90 62" stroke="#2B2118" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<path d="M80 44Q76 34 70 32M90 44Q94 34 100 32" stroke="#2B2118" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<path d="M24 72v6M37 69v7M50 67v7M63 68v7M76 70v7" stroke="#5E9F2E" stroke-width="3" stroke-linecap="round"/>';
+
+  g.pupa = '<path d="M16 8H84" stroke="#7A5A35" stroke-width="6" stroke-linecap="round"/><path d="M50 8v14" stroke="#7A5A35" stroke-width="3"/>' +
+    '<path d="M50 22C67 22 73 40 69 58 65 76 56 88 50 93 44 88 35 76 31 58 27 40 33 22 50 22Z" fill="#7BBF55" stroke="#3E7A2A" stroke-width="2.5"/>' +
+    '<path d="M36 40Q50 46 64 40M34 52Q50 58 66 52M37 64Q50 70 63 64" stroke="#3E7A2A" stroke-width="2" fill="none"/><g fill="#F2B01E"><circle cx="50" cy="31" r="2.2"/><circle cx="43" cy="75" r="2"/><circle cx="57" cy="75" r="2"/></g>' +
+    '<path d="M40 30Q38 44 42 58" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".5"/>';
+
+  g.butterfly = '<path d="M50 46C40 16 10 10 8 34 6 52 30 60 50 50Z" fill="#6A47D6"/><path d="M50 46C60 16 90 10 92 34 94 52 70 60 50 50Z" fill="#6A47D6"/>' +
+    '<path d="M50 52C32 54 16 62 22 82 28 94 46 84 50 64Z" fill="#8F73F0"/><path d="M50 52C68 54 84 62 78 82 72 94 54 84 50 64Z" fill="#8F73F0"/>' +
+    '<g fill="#FFD65A"><circle cx="24" cy="32" r="5.5"/><circle cx="76" cy="32" r="5.5"/><circle cx="33" cy="73" r="4"/><circle cx="67" cy="73" r="4"/></g>' +
+    '<g fill="#fff" opacity=".85"><circle cx="14" cy="38" r="2"/><circle cx="86" cy="38" r="2"/><circle cx="36" cy="22" r="2"/><circle cx="64" cy="22" r="2"/></g>' +
+    '<ellipse cx="50" cy="56" rx="3.8" ry="20" fill="#2B2118"/><circle cx="50" cy="33" r="4.6" fill="#2B2118"/>' +
+    '<path d="M48 30Q42 16 35 14M52 30Q58 16 65 14" stroke="#2B2118" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="35" cy="14" r="2" fill="#2B2118"/><circle cx="65" cy="14" r="2" fill="#2B2118"/>';
+
+  var ROACH_LEGS = '<path d="M36 52L14 42M36 62L10 64M38 74L16 90M64 52L86 42M64 62L90 64M62 74L84 90" stroke="#5A2C0B" stroke-width="3.4" stroke-linecap="round" fill="none"/>';
+  g.cockroach = ROACH_LEGS + '<path d="M45 22Q34 6 16 6M55 22Q66 6 84 6" stroke="#5A2C0B" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<ellipse cx="50" cy="62" rx="20" ry="31" fill="#8A4513"/><path d="M50 40C36 44 32 64 38 86 50 92 62 86 62 86 68 64 64 44 50 40Z" fill="#A8591A"/><path d="M50 40V90" stroke="#6B3410" stroke-width="2"/>' +
+    '<ellipse cx="50" cy="40" rx="15" ry="9" fill="#6B3410"/><ellipse cx="50" cy="28" rx="11" ry="9" fill="#5A2C0B"/><circle cx="45" cy="26" r="2" fill="#F2B01E"/><circle cx="55" cy="26" r="2" fill="#F2B01E"/>';
+  g.nymph = '<g transform="translate(14 18) scale(.72)">' + ROACH_LEGS + '<path d="M45 22Q34 6 16 6M55 22Q66 6 84 6" stroke="#8A4513" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
+    '<ellipse cx="50" cy="62" rx="20" ry="31" fill="#C8742B"/><path d="M32 54H68M31 64H69M33 74H67M36 84H64" stroke="#9A4F14" stroke-width="3" opacity=".75"/>' +
+    '<ellipse cx="50" cy="40" rx="15" ry="9" fill="#B5651D"/><ellipse cx="50" cy="28" rx="11" ry="9" fill="#8A4513"/><circle cx="45" cy="26" r="2" fill="#FFE08A"/><circle cx="55" cy="26" r="2" fill="#FFE08A"/></g>';
+  g.roachEgg = '<rect x="30" y="12" width="40" height="76" rx="20" fill="#C97B2E" stroke="#8A4F14" stroke-width="3"/><path d="M32 34H68M32 50H68M32 66H68" stroke="#8A4F14" stroke-width="3"/><path d="M38 24Q36 40 38 52" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".4"/>';
+  g.eggLeaf = '<path d="M6 86Q50 40 94 86Q50 98 6 86Z" fill="#4FA043"/><path d="M10 86Q50 72 90 86" stroke="#3A8030" stroke-width="2.4" fill="none"/><g transform="translate(50 58) scale(.38) translate(-50 -50)">' + g.egg + '</g>';
+  g.turtle = '<ellipse cx="50" cy="90" rx="34" ry="3.5" fill="#000" opacity=".12"/><path d="M14 74C14 38 78 38 78 74Z" fill="#4E9A45"/><path d="M26 74C28 54 40 46 46 46M46 46C52 54 54 64 54 74M54 74C58 60 64 52 70 50" stroke="#2F6B2B" stroke-width="3" fill="none"/>' +
+    '<ellipse cx="86" cy="62" rx="10" ry="8" fill="#7FBF6F"/><circle cx="89" cy="60" r="2" fill="#10261A"/><path d="M24 74v12h12V74M56 74v12h12V74" fill="#7FBF6F"/><path d="M14 72L6 76L14 78Z" fill="#7FBF6F"/>';
+  g.dolphin = '<path d="M8 74C26 40 62 28 94 46 100 50 96 56 90 54 78 52 70 58 62 70 48 90 22 94 8 74Z" fill="#4D8FD6"/><path d="M20 80C40 90 60 78 72 62 78 56 86 56 92 56 80 60 66 76 52 82 40 86 28 84 20 80Z" fill="#CFE6FA"/>' +
+    '<path d="M8 74L0 62L14 66L4 84Z" fill="#3B78BC"/><path d="M52 38L58 22L68 38Z" fill="#3B78BC"/><circle cx="82" cy="48" r="2.2" fill="#10261A"/>';
+  g.kangaroo = '<ellipse cx="50" cy="94" rx="34" ry="3.5" fill="#000" opacity=".12"/>' +
+    '<path d="M4 92Q30 94 46 78L52 90Q30 100 4 98Z" fill="#B3733E"/>' +
+    '<path d="M36 90C27 62 38 40 56 38 71 36 77 52 71 70 69 80 67 86 63 90Z" fill="#C98B52"/>' +
+    '<path d="M40 88Q58 68 66 90L86 90Q88 96 78 97L40 97Z" fill="#B3733E"/>' +
+    '<ellipse cx="56" cy="66" rx="12" ry="10" fill="#A5632F"/><circle cx="56" cy="58" r="6.5" fill="#E7B787"/><circle cx="52" cy="52" r="2.6" fill="#E7B787"/><circle cx="60" cy="52" r="2.6" fill="#E7B787"/><circle cx="54" cy="58" r="1.2" fill="#2B2118"/><circle cx="59" cy="58" r="1.2" fill="#2B2118"/>' +
+    '<path d="M62 48Q72 52 75 62" stroke="#B3733E" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+    '<path d="M58 17L53 0L67 12Z" fill="#C98B52"/><path d="M66 14L71 0L77 17Z" fill="#C98B52"/><path d="M59 14L56 5L64 12Z" fill="#E7B787"/>' +
+    '<ellipse cx="66" cy="27" rx="11" ry="13" fill="#C98B52"/><ellipse cx="76" cy="33" rx="9" ry="6.5" fill="#E2B07C"/><circle cx="83" cy="32" r="2.2" fill="#2B2118"/><circle cx="68" cy="24" r="2" fill="#2B2118"/>';
+  g.emerging = '<g transform="translate(14 0) scale(.9)">' + g.pupa + '</g><g transform="translate(30 44) rotate(24) scale(.62)">' + g.butterfly + '</g>';
+
+  function svg(name, cls) { return '<svg viewBox="0 0 100 100" class="' + (cls || '') + '" aria-hidden="true">' + g[name] + '</svg>'; }
+  function use(name, x, y, s, rot) { return '<g transform="translate(' + x + ' ' + y + ') ' + (rot ? 'rotate(' + rot + ') ' : '') + 'scale(' + (s / 100) + ')">' + g[name] + '</g>'; }
+
+  /* ---------- banner scenes (viewBox 400x130) ---------- */
+  var cloud = function (x, y, s) { return '<g fill="#fff" opacity=".92" transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><ellipse cx="0" cy="0" rx="22" ry="9"/><ellipse cx="16" cy="-6" rx="14" ry="9"/><ellipse cx="-14" cy="-4" rx="12" ry="7"/></g>'; };
+  var sun = '<circle cx="345" cy="34" r="30" fill="#FFE9A0" opacity=".6"/><circle cx="345" cy="34" r="19" fill="#FFD04D"/>';
+  var scenes = {
+    home: '<rect width="400" height="130" fill="#CFEFFF"/>' + sun + cloud(70, 30, 1) + cloud(180, 22, .8) +
+      '<path d="M0 96Q90 52 200 90T400 78V130H0Z" fill="#9AD88A"/><path d="M0 112Q120 84 240 108T400 100V130H0Z" fill="#69BE5E"/>' +
+      use('hen', 36, 52, 62) + use('chick', 112, 76, 40) + use('frog', 292, 70, 50) + use('butterfly', 230, 24, 38, -10) + use('kangaroo', 330, 56, 58),
+    birds: '<rect width="400" height="130" fill="#CFEFFF"/>' + sun + cloud(60, 30, 1) + cloud(210, 24, .75) +
+      '<path d="M0 98Q110 62 220 94T400 86V130H0Z" fill="#9AD88A"/><path d="M0 114Q140 92 260 112T400 106V130H0Z" fill="#69BE5E"/>' +
+      use('henNest', 40, 38, 84) + use('hen', 190, 54, 70) + use('chick', 270, 74, 44) + use('chick', 316, 82, 36),
+    frog: '<rect width="400" height="130" fill="#CFEFFF"/>' + sun + cloud(80, 26, .9) +
+      '<rect y="62" width="400" height="68" fill="#4DB5C9"/><path d="M0 62Q50 56 100 62T200 62T300 62T400 62V70H0Z" fill="#7FD1E0"/><g fill="#2E9AB0" opacity=".5"><path d="M30 90q20-6 40 0M170 104q20-6 40 0M300 92q20-6 40 0"/></g>' +
+      '<ellipse cx="90" cy="70" rx="38" ry="9" fill="#3E9E4A"/>' + use('frog', 64, 20, 54) +
+      '<g transform="translate(180 76) scale(.55)">' + g.spawn + '</g>' + use('tad1', 262, 78, 40) + use('tad2', 312, 90, 40) + '<ellipse cx="360" cy="68" rx="30" ry="7" fill="#3E9E4A"/>',
+    insects: '<rect width="400" height="130" fill="#D9F2C8"/>' + cloud(60, 24, .8) +
+      '<path d="M0 100Q100 70 200 98T400 90V130H0Z" fill="#8BD04F"/><path d="M0 116Q140 98 260 114T400 108V130H0Z" fill="#5CAE3A"/>' +
+      use('butterfly', 24, 12, 60, -12) + use('caterpillar', 110, 54, 80) + use('pupa', 214, 34, 62) + use('butterfly', 276, 14, 44, 14) + use('cockroach', 334, 56, 52),
+    reptiles: '<rect width="400" height="130" fill="#FCE6B8"/>' + sun +
+      '<path d="M0 92Q110 62 220 90T400 80V130H0Z" fill="#EBC77C"/><path d="M0 114Q140 94 260 112T400 104V130H0Z" fill="#D9AE5A"/>' +
+      use('turtle', 40, 40, 86) + use('egg', 200, 78, 34) + use('egg', 234, 84, 30) + use('egg', 262, 78, 34),
+    mammals: '<rect width="400" height="130" fill="#CFEFFF"/>' + sun + cloud(90, 28, 1) +
+      '<path d="M0 92Q110 60 220 90T400 82V130H0Z" fill="#B7DB86"/><path d="M0 114Q140 96 260 112T400 106V130H0Z" fill="#8FC26A"/>' +
+      use('kangaroo', 40, 38, 88) + use('dolphin', 190, 32, 80, -10) + '<path d="M170 112q20-14 40 0t40 0t40 0t40 0" fill="#4DB5C9" opacity=".0"/>' +
+      '<path d="M200 118Q230 104 260 118T320 118V130H200Z" fill="#4DB5C9"/>',
+    quiz: '<rect width="400" height="130" fill="#FFE2DB"/><g opacity=".9">' + use('egg', 30, 34, 70) + use('chick', 110, 30, 76) + use('tad2', 190, 40, 66) + use('frog', 262, 34, 74) + use('butterfly', 330, 30, 64) + '</g>',
+    play: '<rect width="400" height="130" fill="#E9E2FC"/>' + use('chick', 20, 40, 70) + use('frog', 100, 36, 72) + use('butterfly', 180, 28, 74, -8) + use('cockroach', 262, 34, 72) + use('dolphin', 306, 40, 62, -6)
+  };
+  function scene(name) { return '<svg class="scene" viewBox="0 0 400 130" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Illustration" focusable="false">' + scenes[name] + '</svg>'; }
+
+  return { g: g, svg: svg, use: use, scene: scene };
+})();
+</script>
+<script>
+/* ===== DATA: everything comes from "Animals and Their Young Ones" (Science, Term 2, Chapter 1) ===== */
+window.SWD = (function () {
+  var A = function (n) { return window.ART.svg(n); };
+
+  /* ---------- small drawings used in life cycles ---------- */
+  function tadpole(legs, tail) {
+    var tailPath = tail === 'long'
+      ? '<path d="M32 32 Q44 22 60 32 Q44 42 32 32Z" fill="#4E7F35"/>'
+      : tail === 'short'
+        ? '<path d="M32 32 Q38 27 45 32 Q38 37 32 32Z" fill="#4E7F35"/>'
+        : '';
+    var l = '';
+    if (legs >= 2) l += '<path d="M28 40 L34 50 L40 50 M26 41 L30 52 L36 53" stroke="#4E7F35" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    if (legs >= 4) l += '<path d="M14 40 L9 50 L3 50 M18 41 L15 52 L9 53" stroke="#4E7F35" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    return '<svg viewBox="0 0 64 64" aria-hidden="true">' + tailPath + l +
+      '<ellipse cx="21" cy="32" rx="14" ry="11" fill="#4E7F35"/><circle cx="14" cy="27" r="3" fill="#fff"/><circle cx="13.3" cy="27" r="1.4" fill="#10261A"/></svg>';
+  }
+  var SVG = {
+    spawn: '<svg viewBox="0 0 64 64" aria-hidden="true"><g fill="#D6F1E3" stroke="#3E9A74" stroke-width="2"><circle cx="20" cy="22" r="9"/><circle cx="41" cy="19" r="9"/><circle cx="32" cy="39" r="9"/><circle cx="13" cy="43" r="8"/><circle cx="51" cy="41" r="8"/></g><g fill="#1E3A32"><circle cx="20" cy="22" r="3.2"/><circle cx="41" cy="19" r="3.2"/><circle cx="32" cy="39" r="3.2"/><circle cx="13" cy="43" r="3"/><circle cx="51" cy="41" r="3"/></g></svg>',
+    tad1: tadpole(0, 'long'),
+    tad2: tadpole(2, 'long'),
+    tad3: tadpole(4, 'short'),
+    roachEgg: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="8" width="28" height="48" rx="14" fill="#C97B2E" stroke="#8A4F14" stroke-width="2"/><path d="M20 22h24M20 32h24M20 42h24" stroke="#8A4F14" stroke-width="2"/></svg>',
+    pupa: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 3v11" stroke="#7A5A35" stroke-width="3" stroke-linecap="round"/><path d="M32 14c10 0 14 10 12 20-2 10-7 20-12 24-5-4-10-14-12-24-2-10 2-20 12-20z" fill="#7BBF55" stroke="#3E7A2A" stroke-width="2"/><path d="M24 24h16M23 32h18M25 40h14" stroke="#3E7A2A" stroke-width="1.6" fill="none"/></svg>'
+  };
+
+  /* ---------- life cycles (all start at the egg) ---------- */
+  var LC = {
+    hen: {
+      name: 'Hen', color: 'sun', title: 'Life cycle of a hen',
+      stages: [
+        { s: 'Egg', t: 'The egg', v: A('egg'), d: 'The hen lays eggs in her nest.' },
+        { s: 'Warming', t: 'Mother hen warms the eggs', v: A('henNest'), d: 'The hen sits on the eggs to keep them warm. This is called incubation. It helps the baby (embryo) inside to grow.', kw: 'Incubation' },
+        { s: 'Hatching', t: 'The chick hatches out', v: A('hatching'), d: 'When the baby is fully grown inside, the chick breaks the shell and comes out. This is called hatching.', kw: 'Hatching' },
+        { s: 'Growing chick', t: 'The chick grows', v: A('chick'), d: 'The chick eats and grows. The parent birds look after the chick until it can look after itself.' },
+        { s: 'Adult hen', t: 'The adult hen', v: A('hen'), d: 'The chick becomes an adult hen. Now she can lay eggs too, and the cycle starts again!' }
+      ]
+    },
+    frog: {
+      name: 'Frog', color: 'green', title: 'Life cycle of a frog',
+      stages: [
+        { s: 'Frogspawn', t: 'Frogspawn (cluster of eggs)', v: A('spawn'), d: 'A female frog lays eggs in water or wet places. The eggs are in a big cluster that floats on the water. The cluster is called frogspawn. Each egg is wrapped in jelly.', kw: 'Frogspawn' },
+        { s: 'Early tadpole', t: 'Early tadpole', v: A('tad1'), d: 'The egg grows into a tiny tadpole and hatches. A tadpole looks like a fish. It has a tail to swim and it breathes through gills.' },
+        { s: 'Late tadpole', t: 'Late tadpole', v: A('tad2'), d: 'The tadpole grows legs (limbs).' },
+        { s: 'Losing its tail', t: 'Tadpole losing its tail', v: A('tad3'), d: 'The tail starts to get smaller and lungs start to grow inside the body.' },
+        { s: 'Adult frog', t: 'Adult frog', v: A('frog'), d: 'The adult frog breathes with lungs and through its moist skin. All these changes together are called metamorphosis.', kw: 'Metamorphosis' }
+      ],
+      fact: 'FactAce: A tadpole takes about 5 weeks to grow its tail and organs, and about 11 weeks to change completely into a frog.'
+    },
+    cockroach: {
+      name: 'Cockroach', color: 'coral', title: 'Life cycle of a cockroach',
+      stages: [
+        { s: 'Egg', t: 'The egg', v: A('roachEgg'), d: 'The cockroach lays eggs.' },
+        { s: 'Nymph', t: 'The nymph', v: A('nymph'), d: 'The baby that comes out of the egg is called a nymph. It looks like its parent, but it has no wings. It sheds its old skin many times (moulting) as it grows.', kw: 'Moulting' },
+        { s: 'Adult cockroach', t: 'The adult cockroach', v: A('cockroach'), d: 'After moulting many times, the nymph becomes an adult cockroach with wings. Only 3 stages: egg, nymph, adult.' }
+      ]
+    },
+    butterfly: {
+      name: 'Butterfly', color: 'violet', title: 'Life cycle of a butterfly',
+      stages: [
+        { s: 'Egg', t: 'The egg', v: A('eggLeaf'), d: 'A butterfly lays eggs on the underside of a leaf.' },
+        { s: 'Caterpillar', t: 'The caterpillar (larva)', v: A('caterpillar'), d: 'The egg hatches into a larva called a caterpillar. It looks like a worm. It eats leaves and grows.' },
+        { s: 'Pupa', t: 'The pupa (chrysalis)', v: A('pupa'), d: 'The caterpillar makes a silky case around itself by shedding its skin. This case is the cocoon. This stage is called the pupa (also called the chrysalis).', kw: 'Cocoon / Pupa' },
+        { s: 'Emerging', t: 'The butterfly comes out', v: A('emerging'), d: 'After some time the cocoon opens. The butterfly pushes out. Its wings are still soft and wet.' },
+        { s: 'Adult butterfly', t: 'The adult butterfly', v: A('butterfly'), d: 'The wings dry and the butterfly flies away. 4 stages: egg, larva, pupa, adult. The body changes completely: that is metamorphosis.', kw: 'Metamorphosis' }
+      ]
+    }
+  };
+
+  /* ---------- baby animals for the home egg ---------- */
+  var BABIES = [
+    { e: '🐥', art: 'chick', n: 'Chick', p: 'hen', how: 'hatched from an egg', x: 'A hen sits on her eggs to keep them warm. This is incubation.' },
+    { e: '🐱', n: 'Kitten', p: 'cat', how: 'was born', x: 'A cat is a mammal. Mammals give birth and feed milk to their babies.' },
+    { e: '🐶', n: 'Puppy', p: 'dog', how: 'was born', x: 'A dog is a mammal. A mammal mother feeds her own milk to her babies.' },
+    { e: '🐮', n: 'Calf', p: 'cow', how: 'was born', x: 'A cow is a mammal, so her baby drinks her milk.' },
+    { e: '🐷', n: 'Piglet', p: 'pig', how: 'was born', x: 'A pig is a mammal. Mammals have hair on their body and breathe with lungs.' },
+    { e: '🦘', art: 'kangaroo', n: 'Joey', p: 'kangaroo', how: 'was born', x: 'A kangaroo is a marsupial. It carries its baby in a pouch on its body.' }
+  ];
+
+  var FACTS = [
+    'Life on Earth would have disappeared if living things did not reproduce.',
+    'A tadpole takes about 5 weeks to grow its tail and organs, and about 11 weeks to become a frog.',
+    'A baby chimpanzee can stay with its mother for up to 4 years. A baby rat leaves its mother after about 3 weeks.',
+    'Bats are the only mammals that can fly.',
+    'A fish lays hundreds of eggs at a time, but only a few become baby fish.',
+    'Mammals have the smartest brains of all animals.',
+    'A baby koala stays in its mother\'s pouch for about the first six months.'
+  ];
+
+  var KEYWORDS = [
+    ['Reproduction', 'The process by which living things make young ones.', 'Making babies so that a kind of animal keeps living on Earth.'],
+    ['Incubation', 'The process in which a parent sits on the eggs to keep them warm.', 'Sitting on eggs to keep them cosy.'],
+    ['Embryo', 'An unborn or unhatched baby that is still growing.', 'The tiny baby growing inside the egg.'],
+    ['Hatching', 'The process in which the baby breaks the shell of its egg and comes out.', 'Cracking out of the egg.'],
+    ['Metamorphosis', 'The process of change that an animal goes through to become an adult.', 'A big body change, like tadpole to frog or caterpillar to butterfly.'],
+    ['Mammals', 'Animals that give birth to young ones and feed milk to their babies.', 'Babies drink mother\'s milk. Dogs, cats, humans and dolphins are mammals.'],
+    ['Marsupials', 'Mammals that carry their babies in a pouch on their body.', 'Kangaroos and koalas have a pouch for the baby.']
+  ];
+
+  /* ---------- Question and Answer tab: EVERY question from the book ---------- */
+  var QA = [
+    { id: 'know', title: 'What I Know', sub: 'Crossword, page 195', color: 'violet', items: [
+      { q: 'Across 2. Young one of a hen', a: 'Chick' },
+      { q: 'Across 3. Young one of a pig', a: 'Piglet' },
+      { q: 'Down 1. Young one of a cat', a: 'Kitten' },
+      { q: 'Down 2. Young one of a cow', a: 'Calf' },
+      { q: 'Down 3. Young one of a dog', a: 'Puppy' }
+    ] },
+    { id: 'hots1', title: 'HOTS', sub: 'Think hard, page 198', color: 'coral', items: [
+      { q: 'The life cycle of a butterfly also shows metamorphosis. How?',
+        a: 'A butterfly does not just get bigger. Its body changes completely: egg, then a worm-like caterpillar, then a pupa inside a cocoon, then a butterfly with wings. A complete change of body like this is metamorphosis, just like a tadpole changing into a frog.' }
+    ] },
+    { id: 'check', title: 'Checkpoint', sub: 'Fill in the blanks, page 199', color: 'sun', items: [
+      { blank: true, pre: '', post: ' keeps the egg warm, so that the baby inside the egg can develop easily.', o: ['Incubation', 'Hatching'], a: 0, why: 'Incubation means a parent sits on the eggs to keep them warm.' },
+      { blank: true, pre: 'The white, thick, jelly-like substance within the egg shell is called the ', post: '.', o: ['yolk', 'albumen'], a: 1, why: 'Albumen is the egg white. The yolk is the yellow round part.' },
+      { blank: true, pre: 'The floating cluster of frog eggs is known as the ', post: '.', o: ['nymph', 'frogspawn'], a: 1, why: 'A nymph is a baby insect. Frogspawn is a floating cluster of frog eggs.' },
+      { blank: true, pre: 'In order to become an adult frog, a tadpole undergoes several changes through a process known as ', post: '.', o: ['metamorphosis', 'hatching'], a: 0, why: 'The big change from tadpole to frog is metamorphosis.' },
+      { blank: true, pre: 'Insects like butterflies undergo ', post: ' stages of development in their life cycle.', o: ['three', 'four'], a: 1, why: 'Butterflies have four stages: egg, larva, pupa, adult.' }
+    ] },
+    { id: 'obj-a', title: 'I. A. Tick the correct answer', sub: 'Objective type, page 201-202', color: 'blue', items: [
+      { q: 'All living organisms ______ for the continuity of life on the Earth.', o: ['reproduce', 'eat', 'breathe', 'none of these'], a: 0, why: 'Living things reproduce (make young ones) so that their kind never disappears.' },
+      { q: 'The process of parents sitting on the eggs to keep them warm is known as ______.', o: ['reproduction', 'metamorphosis', 'hatching', 'incubation'], a: 3, why: 'Incubation keeps the eggs warm so the embryo can grow.' },
+      { q: 'The baby insect that comes out of the egg of a cockroach is known as ______.', o: ['pupa', 'larva', 'nymph', 'chick'], a: 2, why: 'A cockroach baby is a nymph. It looks like its parent but has no wings.' },
+      { q: 'The egg of a butterfly hatches into a larva, which is known as a ______.', o: ['tadpole', 'caterpillar', 'nymph', 'pupa'], a: 1, why: 'The butterfly larva is called a caterpillar.' },
+      { q: 'A dolphin has ______ at the top of its head to breathe.', o: ['lungs', 'gills', 'nose', 'blowhole'], a: 3, why: 'Dolphins and whales breathe air through a blowhole on top of their head.' }
+    ] },
+    { id: 'obj-b', title: 'I. B. State True or False', sub: 'Objective type, page 202', color: 'blue', items: [
+      { q: 'The albumen is the yellow portion of an egg.', o: ['True', 'False'], a: 1, why: 'False. The albumen is the white part. The yolk is the yellow part.' },
+      { q: 'A frog is a mammal.', o: ['True', 'False'], a: 1, why: 'False. A frog lays eggs. Mammals give birth and feed milk.' },
+      { q: 'A tadpole undergoes metamorphosis to become an adult frog.', o: ['True', 'False'], a: 0, why: 'True. The tadpole changes its body step by step into a frog.' },
+      { q: 'A caterpillar makes a protective covering around itself known as pupa.', o: ['True', 'False'], a: 1, why: 'False. The covering is called the cocoon. The stage inside it is called the pupa.' },
+      { q: 'Mammals do not feed milk to their babies.', o: ['True', 'False'], a: 1, why: 'False. Mammals feed their own milk to their babies.' }
+    ] },
+    { id: 'obj-c', title: 'I. C. Complete the concept map', sub: 'Objective type, page 202', color: 'blue', items: [
+      { q: 'Complete the concept map: Reproduction in Animals.', map: true }
+    ] },
+    { id: 'obj-d', title: 'I. D. Match the following', sub: 'Objective type, page 203', color: 'blue', items: [
+      { q: 'Match: 1 Frog, 2 Butterfly, 3 Hen, 4 Cockroach, 5 Dolphin with a Blowhole, b Chick, c Pupa, d Nymph, e Tadpole.', match: [['🐸', 'Frog', 'e. Tadpole'], ['🦋', 'Butterfly', 'c. Pupa'], ['🐔', 'Hen', 'b. Chick'], ['🪳', 'Cockroach', 'd. Nymph'], ['🐬', 'Dolphin', 'a. Blowhole']] }
+    ] },
+    { id: 'short', title: 'II. Short Answer Questions', sub: 'Flowchart, page 203', color: 'green', items: [
+      { q: 'Solve the flowchart using the words: Whale, Frog, Hen, Dog.', flow: true }
+    ] },
+    { id: 'long', title: 'III. Long Answer Questions', sub: 'Page 203', color: 'green', items: [
+      { q: '1. Explain the life cycle of a frog.', list: [
+        'A female frog lays eggs in water or wet places. The eggs float in a big cluster called frogspawn, and each egg is wrapped in jelly.',
+        'The egg grows into a tiny tadpole and hatches. An early tadpole looks like a fish: it has a tail to swim and breathes through gills.',
+        'The tadpole grows legs (late tadpole). Then its tail starts to shrink and lungs start to grow.',
+        'It becomes an adult frog that breathes with lungs and through its moist skin.',
+        'These changes together are called metamorphosis.'
+      ] },
+      { q: '2. How is the life cycle of a cockroach different from that of a hen?', table: [
+        ['', 'Hen', 'Cockroach'],
+        ['Stages', 'Egg, chick, adult hen', 'Egg, nymph, adult cockroach'],
+        ['Baby is called', 'A chick', 'A nymph'],
+        ['Before hatching', 'The parent sits on the eggs to keep them warm (incubation).', 'The cockroach lays eggs.'],
+        ['Coming out', 'The chick breaks the shell (hatching).', 'The nymph comes out of the egg.'],
+        ['How baby grows', 'The chick grows bigger. Parent birds look after it until it can look after itself.', 'The nymph sheds its old skin many times (moulting). It looks like the parent but has no wings.']
+      ] },
+      { q: '3. How do mammals take care of their babies? Explain.', list: [
+        'Mammals give birth to their young ones and feed them their own milk.',
+        'They keep the babies warm with the warmth of their bodies.',
+        'They protect the babies from predators.',
+        'They teach the babies how to hunt for food.',
+        'Some mammals, called marsupials, carry their babies in a pouch. A kangaroo keeps its baby in its pouch. A koala keeps its baby in the pouch for about six months, then carries it on its back.',
+        'Mammals look after their young ones for a longer time. A baby chimpanzee may stay with its mother for up to 4 years.'
+      ] }
+    ] },
+    { id: 'riddle', title: 'Riddle Time', sub: 'HOTS, Enrichment, page 204', color: 'coral', items: [
+      { q: '1. I am a tadpole. I undergo a process to become like my parents. What is that process?', a: 'Metamorphosis' },
+      { q: '2. You can find me inside an egg and I am a rich source of protein.', a: 'Albumen (egg white)' },
+      { q: '3. I am a baby insect. I have just come out of my egg. What am I called?', a: 'Nymph' },
+      { q: '4. I am a caterpillar and I make a protective covering around myself. What is this covering called?', a: 'Cocoon' },
+      { q: '5. I am a water mammal and I come to the surface to breathe through this organ. What is the name of this organ?', a: 'Blowhole' }
+    ] },
+    { id: 'story', title: 'Connect to Life', sub: 'Cocoon and the Butterfly, page 204-205', color: 'sun', items: [
+      { q: 'Moral of the story: what do struggles and problems do for us?', a: 'Struggles and problems make us stronger.', extra: true },
+      { q: 'Extra question: Why could Rajan\'s butterfly not fly?', a: 'Rajan tore the cocoon, so the butterfly came out too quickly without the struggle. The struggle pushes fluid from its body into its wings. Without it, the butterfly had a swollen body and small wings.', extra: true }
+    ] }
+  ];
+
+  /* ---------- Quiz: MCQ on the chapter ---------- */
+  var QUIZ = [
+    { q: 'What do we call the process by which living things make young ones?', o: ['Reproduction', 'Hatching', 'Incubation', 'Metamorphosis'], a: 0, why: 'Reproduction is how living things produce young ones.' },
+    { q: 'Why do living things reproduce?', o: ['To sleep longer', 'So their kind keeps living on Earth', 'To find food', 'To breathe'], a: 1, why: 'If living things did not reproduce, their kind would disappear from Earth.' },
+    { q: 'In how many ways do animals reproduce?', o: ['One', 'Two', 'Three', 'Four'], a: 1, why: 'Two ways: they lay eggs, or they give birth to young ones.' },
+    { q: 'Which of these animals lays eggs?', o: ['Cow', 'Rabbit', 'Frog', 'Elephant'], a: 2, why: 'Frogs lay eggs in water. Cows, rabbits and elephants are mammals.' },
+    { q: 'Which of these is a mammal?', o: ['Hen', 'Dolphin', 'Frog', 'Crocodile'], a: 1, why: 'A dolphin gives birth and feeds milk, so it is a mammal.' },
+    { q: 'A parent sits on the eggs to keep them warm. This is called...', o: ['Hatching', 'Incubation', 'Moulting', 'Reproduction'], a: 1, why: 'Incubation keeps the eggs warm so the embryo can develop.' },
+    { q: 'What is the hard outer covering of an egg called?', o: ['Yolk', 'Albumen', 'Shell', 'Embryo'], a: 2, why: 'The shell protects the young one inside.' },
+    { q: 'The white, thick, jelly-like part of an egg is called...', o: ['Yolk', 'Albumen', 'Shell', 'Nymph'], a: 1, why: 'Albumen is the egg white. It is rich in protein.' },
+    { q: 'What does the yolk give to the growing baby?', o: ['Wings', 'A hard shell', 'Nutrition (food)', 'Water'], a: 2, why: 'The yolk is rich in fat, vitamins and minerals and feeds the baby.' },
+    { q: 'What is it called when the chick breaks the shell and comes out?', o: ['Incubation', 'Hatching', 'Moulting', 'Pupa'], a: 1, why: 'Hatching is when the baby breaks the shell and comes out.' },
+    { q: 'What is a floating cluster of frog eggs called?', o: ['Nymph', 'Cocoon', 'Frogspawn', 'Larva'], a: 2, why: 'Frogspawn is a cluster of frog eggs that floats on water.' },
+    { q: 'What comes out of a frog\'s egg?', o: ['A chick', 'A tadpole', 'A nymph', 'A caterpillar'], a: 1, why: 'A frog egg hatches into a tadpole.' },
+    { q: 'An early tadpole breathes through...', o: ['Lungs', 'Gills', 'A blowhole', 'Its nose'], a: 1, why: 'An early tadpole is like a fish and breathes through gills.' },
+    { q: 'An adult frog breathes through...', o: ['Gills only', 'A blowhole', 'Lungs and moist skin', 'Its tail'], a: 2, why: 'Adult frogs breathe with lungs and through their moist skin.' },
+    { q: 'The change from tadpole to adult frog is called...', o: ['Hatching', 'Incubation', 'Metamorphosis', 'Reproduction'], a: 2, why: 'Metamorphosis is a big change of body to become an adult.' },
+    { q: 'About how long does a tadpole take to change completely into a frog?', o: ['About 1 week', 'About 5 weeks', 'About 11 weeks', 'About 1 year'], a: 2, why: 'About 5 weeks for the tail and organs, and about 11 weeks to become a frog.' },
+    { q: 'The baby insect that comes out of a cockroach egg is a...', o: ['Nymph', 'Pupa', 'Chick', 'Tadpole'], a: 0, why: 'A cockroach baby is called a nymph.' },
+    { q: 'How is a cockroach nymph different from the adult?', o: ['It has no wings', 'It lives in water', 'It has no legs', 'It lays eggs'], a: 0, why: 'A nymph looks like its parent but it does not have wings.' },
+    { q: 'What do we call shedding the old skin, as an insect does?', o: ['Hatching', 'Moulting', 'Incubation', 'Breathing'], a: 1, why: 'Moulting is shedding the old skin.' },
+    { q: 'Which insect has only three stages in its life cycle?', o: ['Butterfly', 'Housefly', 'Grasshopper', 'Hen'], a: 2, why: 'Cockroaches and grasshoppers have three stages. Butterflies and houseflies have four.' },
+    { q: 'How many stages does a butterfly have in its life cycle?', o: ['Two', 'Three', 'Four', 'Five'], a: 2, why: 'Egg, larva (caterpillar), pupa and adult butterfly.' },
+    { q: 'Where does a butterfly lay its eggs?', o: ['In water', 'Under the surface of a leaf', 'In a hole in the ground', 'In a nest'], a: 1, why: 'A butterfly lays eggs on the underside of a leaf.' },
+    { q: 'The egg of a butterfly hatches into a...', o: ['Tadpole', 'Nymph', 'Caterpillar', 'Chick'], a: 2, why: 'The caterpillar is the larva of the butterfly.' },
+    { q: 'What is the silky case that a caterpillar makes called?', o: ['Cocoon', 'Shell', 'Pouch', 'Nest'], a: 0, why: 'The silky case is the cocoon. The stage inside is the pupa.' },
+    { q: 'Which animals are reptiles?', o: ['Snakes and turtles', 'Dolphins and whales', 'Hens and crows', 'Cats and dogs'], a: 0, why: 'Snakes, turtles, lizards and crocodiles are reptiles.' },
+    { q: 'Where do many reptiles lay their eggs?', o: ['In a hole in the ground', 'On water', 'In a pouch', 'On a leaf'], a: 0, why: 'Reptiles make a hole in the ground and lay eggs in it.' },
+    { q: 'Which reptile is a caring parent that protects its eggs and babies?', o: ['Snake', 'Crocodile', 'Lizard', 'Frog'], a: 1, why: 'The female crocodile guards her eggs and looks after the babies.' },
+    { q: 'Animals that give birth and feed their own milk to babies are...', o: ['Reptiles', 'Insects', 'Mammals', 'Birds'], a: 2, why: 'These animals are called mammals.' },
+    { q: 'Which of these has hair on its body?', o: ['Dog', 'Frog', 'Dolphin', 'Hen'], a: 0, why: 'Mammals like dogs have hair. Dolphins and whales are water mammals without hair.' },
+    { q: 'How do whales and dolphins take in air?', o: ['Through gills', 'Through a blowhole', 'Through their skin', 'Through their tail'], a: 1, why: 'They come up to the surface and breathe through the blowhole on top of the head.' },
+    { q: 'Which is the only mammal that can fly?', o: ['Eagle', 'Bat', 'Butterfly', 'Hen'], a: 1, why: 'Bats are the only mammals that can fly.' },
+    { q: 'What are mammals that carry babies in a pouch called?', o: ['Marsupials', 'Reptiles', 'Insects', 'Nymphs'], a: 0, why: 'Marsupials carry their babies in a pouch.' },
+    { q: 'Which of these is a marsupial?', o: ['Kangaroo', 'Dog', 'Dolphin', 'Horse'], a: 0, why: 'A kangaroo keeps its baby in its pouch.' },
+    { q: 'What is the baby of a pig called?', o: ['Kitten', 'Calf', 'Piglet', 'Puppy'], a: 2, why: 'A baby pig is a piglet.' },
+    { q: 'What is the baby of a cow called?', o: ['Calf', 'Chick', 'Kitten', 'Puppy'], a: 0, why: 'A baby cow is a calf.' },
+    { q: 'How long may a baby chimpanzee stay with its mother?', o: ['3 weeks', '6 months', 'Up to 4 years', 'One day'], a: 2, why: 'A baby chimp can stay up to 4 years. A baby rat leaves after about 3 weeks.' },
+    { q: 'What is the moral of the story "Cocoon and the Butterfly"?', o: ['Never go to a park', 'Struggles and problems make us stronger', 'Caterpillars are pets', 'Butterflies cannot fly'], a: 1, why: 'The butterfly needs its struggle to become strong enough to fly.' }
+  ];
+
+  var SORT = [
+    { e: '🐔', n: 'Hen', egg: true, why: 'Birds lay eggs and sit on them to keep them warm.' },
+    { e: '🐬', n: 'Dolphin', egg: false, why: 'A dolphin is a water mammal. It gives birth and feeds milk.' },
+    { e: '🐸', n: 'Frog', egg: true, why: 'Frogs lay eggs (frogspawn) in water.' },
+    { e: '🐱', n: 'Cat', egg: false, why: 'A cat is a mammal. Mammals give birth.' },
+    { e: '🦋', n: 'Butterfly', egg: true, why: 'All insects lay eggs.' },
+    { e: '🦇', n: 'Bat', egg: false, why: 'A bat is the only mammal that can fly. It gives birth.' },
+    { e: '🐍', n: 'Snake', egg: true, why: 'Reptiles lay eggs in a hole in the ground.' },
+    { e: '🐘', n: 'Elephant', egg: false, why: 'An elephant is a mammal. It gives birth.' },
+    { e: '🐟', n: 'Fish', egg: true, why: 'A fish lays hundreds of eggs at a time.' },
+    { e: '🦘', n: 'Kangaroo', egg: false, why: 'A kangaroo is a marsupial mammal. Its baby grows in a pouch.' },
+    { e: '🐊', n: 'Crocodile', egg: true, why: 'A crocodile lays eggs, and the mother guards them.' },
+    { e: '🪳', n: 'Cockroach', egg: true, why: 'Insects lay eggs. The baby is a nymph.' },
+    { e: '🐢', n: 'Turtle', egg: true, why: 'Turtles are reptiles. Their egg shells are very hard.' },
+    { e: '🐴', n: 'Horse', egg: false, why: 'A horse is a mammal. It gives birth.' },
+    { e: '🐒', n: 'Monkey', egg: false, why: 'A monkey is a mammal. It gives birth.' },
+    { e: '🦗', n: 'Grasshopper', egg: true, why: 'Insects lay eggs. A grasshopper has three life stages.' }
+  ];
+
+  var PAIRS = [
+    ['🐔', 'Hen', 'Chick'], ['🐱', 'Cat', 'Kitten'], ['🐶', 'Dog', 'Puppy'], ['🐮', 'Cow', 'Calf'],
+    ['🐷', 'Pig', 'Piglet'], ['🐸', 'Frog', 'Tadpole'], ['🦋', 'Butterfly', 'Caterpillar'], ['🪳', 'Cockroach', 'Nymph']
+  ];
+
+  var RIDDLES = [
+    { q: 'I am a tadpole. I go through a process to become like my parents. What is that process?', a: ['metamorphosis'], show: 'Metamorphosis' },
+    { q: 'You can find me inside an egg and I am a rich source of protein.', a: ['albumen', 'egg white', 'eggwhite', 'white'], show: 'Albumen (egg white)' },
+    { q: 'I am a baby insect. I have just come out of my egg. What am I called?', a: ['nymph'], show: 'Nymph', near: { larva: 'Good thinking! A butterfly\'s baby is a larva. Here the book is thinking of a cockroach, so the answer is nymph.' } },
+    { q: 'I am a caterpillar and I make a protective covering around myself. What is this covering called?', a: ['cocoon'], show: 'Cocoon', near: { pupa: 'Close! The stage is called the pupa. The covering is called the cocoon.', chrysalis: 'Close! The pupa is also called the chrysalis. The covering is the cocoon.' } },
+    { q: 'I am a water mammal. I come to the surface to breathe through this organ. What is the name of this organ?', a: ['blowhole'], show: 'Blowhole' }
+  ];
+
+  var CROSS = [
+    { n: 1, d: 'D', r: 0, c: 5, ans: 'KITTEN', clue: 'Young one of a cat' },
+    { n: 2, d: 'A', r: 1, c: 3, ans: 'CHICK', clue: 'Young one of a hen' },
+    { n: 2, d: 'D', r: 1, c: 3, ans: 'CALF', clue: 'Young one of a cow' },
+    { n: 3, d: 'A', r: 3, c: 0, ans: 'PIGLET', clue: 'Young one of a pig' },
+    { n: 3, d: 'D', r: 3, c: 0, ans: 'PUPPY', clue: 'Young one of a dog' }
+  ];
+
+  return { SVG: SVG, LC: LC, BABIES: BABIES, FACTS: FACTS, KEYWORDS: KEYWORDS, QA: QA, QUIZ: QUIZ, SORT: SORT, PAIRS: PAIRS, RIDDLES: RIDDLES, CROSS: CROSS };
+})();
+</script>
+<script>
+/* ===== CORE: helpers, navigation, Home ===== */
+window.SW = (function () {
+  var D = window.SWD;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var shuffle = function (a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem('swl-' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem('swl-' + k, JSON.stringify(v)); } catch (e) { } }
+  };
+  var S = { VIEWS: {}, INIT: {}, ACT: {}, $: $, $$: $$, esc: esc, shuffle: shuffle, store: store, cleanups: [], current: null };
+  S.onLeave = function (fn) { S.cleanups.push(fn); };
+
+  S.celebrate = function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cols = ['#F2B01E', '#17824F', '#3659CC', '#C23520', '#6A47D6', '#2BB3C0'];
+    for (var i = 0; i < 40; i++) {
+      var s = document.createElement('span');
+      s.className = 'confetti';
+      s.style.left = (Math.random() * 100) + 'vw';
+      s.style.background = cols[i % cols.length];
+      s.style.setProperty('--dx', (Math.random() * 160 - 80) + 'px');
+      s.style.animationDelay = (Math.random() * .4) + 's';
+      document.body.appendChild(s);
+      setTimeout(function (n) { return function () { n.remove(); }; }(s), 2600);
+    }
+  };
+
+  /* ----- tabs ----- */
+  var ICONS = {
+    home: '<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
+    learn: '<path d="M12 6c-2-1.5-5-2-8-1.5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-13C17 4 14 4.5 12 6z"/><path d="M12 6v13"/>',
+    qa: '<path d="M4 5h16v11H9l-5 4z"/><path d="M10 9.5a2 2 0 1 1 3 1.7c-.7.4-1 .8-1 1.5"/><path d="M12 14.8v.2"/>',
+    quiz: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    play: '<rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 10v5M5.5 12.5h5"/><path d="M15.5 11.5v.1M18 14v.1"/>'
+  };
+  var TABS = [
+    { id: 'home', label: 'Home', color: 'green' }, { id: 'learn', label: 'Learn', color: 'green' },
+    { id: 'qa', label: 'Q & A', color: 'blue' }, { id: 'quiz', label: 'Quiz', color: 'coral' }, { id: 'play', label: 'Play', color: 'violet' }
+  ];
+  S.TABS = TABS; S.ICONS = ICONS;
+
+  S.go = function (id) {
+    if (!S.VIEWS[id]) id = 'home';
+    S.cleanups.forEach(function (f) { try { f(); } catch (e) { } });
+    S.cleanups = [];
+    S.current = id;
+    var tab = TABS.filter(function (t) { return t.id === id; })[0];
+    $('#view').innerHTML = S.VIEWS[id]();
+    $('#view').className = 'wrap t-' + tab.color;
+    $$('.tab').forEach(function (b) { if (b.dataset.to === id) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    if (S.INIT[id]) S.INIT[id]();
+    window.scrollTo(0, 0);
+  };
+
+  /* ----- Home ----- */
+  var EGG_PATH = 'M100 10C150 10 186 92 186 150 186 206 148 232 100 232 52 232 14 206 14 150 14 92 50 10 100 10Z';
+  var SPECKS = '<circle cx="62" cy="170" r="4"/><circle cx="138" cy="190" r="5"/><circle cx="110" cy="205" r="3"/><circle cx="76" cy="60" r="3.5"/><circle cx="128" cy="76" r="4"/><circle cx="100" cy="40" r="3"/><circle cx="48" cy="120" r="3"/><circle cx="154" cy="130" r="3.5"/>';
+  var EGG_SVG = '<svg class="egg-svg" viewBox="0 0 200 240" aria-hidden="true"><defs>' +
+    '<clipPath id="eg-top"><polygon points="-30,-30 230,-30 230,128 180,146 156,122 128,148 100,122 72,148 44,122 20,146 -30,128"/></clipPath>' +
+    '<clipPath id="eg-bot"><polygon points="-30,128 20,146 44,122 72,148 100,122 128,148 156,122 180,146 230,128 230,270 -30,270"/></clipPath></defs>' +
+    '<g clip-path="url(#eg-bot)"><path class="shell" d="' + EGG_PATH + '"/><g class="speck">' + SPECKS + '</g></g>' +
+    '<g class="egg-top" clip-path="url(#eg-top)"><path class="shell" d="' + EGG_PATH + '"/><g class="speck">' + SPECKS + '</g></g></svg>';
+
+  var icon = function (k) { return '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[k] + '</svg>'; };
+
+  S.VIEWS.home = function () {
+    return '' +
+      '<section class="hero t-green">' +
+      '<div class="hero-text">' +
+      '<p class="eyebrow">Class 4 · Science · Term 2 · Chapter 1</p>' +
+      '<h1>Animals and Their Young Ones</h1>' +
+      '<p class="lead">Hello, Swarup! Tap the egg and see who hatches. Then read, answer, play and win stars. Everything is open. Start anywhere you like.</p>' +
+      '<div class="row"><button class="btn" data-act="go" data-to="learn">Start learning</button><button class="btn ghost" data-act="go" data-to="quiz">Take the quiz</button></div>' +
+      '</div>' +
+      '<div class="egg-stage">' +
+      '<button class="egg" id="egg" data-act="egg" aria-label="Tap the egg to hatch a baby animal">' + EGG_SVG + '<span class="baby" id="baby" aria-hidden="true"></span></button>' +
+      '<div class="egg-card" id="eggCard" aria-live="polite"><strong>Tap the egg!</strong><br>A baby animal is waiting inside.</div>' +
+      '</div></section>' +
+      '<div class="scene-wrap">' + window.ART.scene('home') + '</div>' +
+
+      '<section class="grid4">' +
+      [['learn', 'green', 'Learn', 'Easy explanations, pictures and life cycles.'],
+      ['qa', 'blue', 'Q & A', 'Every question from your book, with answers.'],
+      ['quiz', 'coral', 'Quiz', D.QUIZ.length + ' MCQs on the chapter. Pick 10, 20 or all.'],
+      ['play', 'violet', 'Play', 'Crossword, riddles, matching and more.']].map(function (c) {
+        return '<button class="go-card t-' + c[1] + '" data-act="go" data-to="' + c[0] + '"><span class="ic">' + icon(c[0]) + '</span><h3>' + c[2] + '</h3><p>' + c[3] + '</p></button>';
+      }).join('') + '</section>' +
+
+      '<section class="card t-sun"><div class="sec-head"><p class="eyebrow">The big idea</p><h2>Animals have babies in two ways</h2></div>' +
+      '<div class="two-ways" style="margin-top:14px">' +
+      '<div class="way t-sun"><span class="big">' + window.ART.svg('egg') + '</span><h3>They lay eggs</h3><p>Birds, fish, turtles, frogs, reptiles and insects. The babies hatch out of the eggs.</p></div>' +
+      '<div class="way t-blue"><span class="big">' + window.ART.svg('kangaroo') + '</span><h3>They give birth</h3><p>Mammals like dogs, cats, humans and dolphins. The babies drink their mother\'s milk.</p></div>' +
+      '</div></section>' +
+
+      '<section class="card fact t-green"><p id="factText">' + esc(D.FACTS[0]) + '</p><button class="btn ghost" data-act="fact">Next fact</button></section>' +
+      '<p class="muted" style="text-align:center;font-size:15px">Nothing is locked in this app. Open anything, any time.</p>';
+  };
+
+  var eggState = { order: [], i: -1, open: false }, factI = 0;
+  S.INIT.home = function () { eggState.open = false; factI = 0; };
+
+  S.ACT.go = function (t) { S.go(t.dataset.to); };
+  S.ACT.egg = function () {
+    var egg = $('#egg'), card = $('#eggCard');
+    if (!eggState.open) {
+      if (eggState.i < 0 || eggState.i >= eggState.order.length - 1) { eggState.order = shuffle(D.BABIES); eggState.i = -1; }
+      eggState.i++;
+      var b = eggState.order[eggState.i];
+      $('#baby').innerHTML = b.art ? window.ART.svg(b.art) : b.e;
+      card.innerHTML = '<strong>' + b.n + '!</strong> The baby of a ' + b.p + '. It ' + b.how + '.<br><span class="muted" style="font-size:15px">' + esc(b.x) + '</span>';
+      egg.classList.add('open'); eggState.open = true;
+    } else {
+      egg.classList.remove('open'); eggState.open = false;
+      card.innerHTML = '<strong>Tap again!</strong><br>Another baby is waiting.';
+    }
+  };
+  S.ACT.fact = function () { factI = (factI + 1) % D.FACTS.length; $('#factText').textContent = D.FACTS[factI]; };
+
+  /* ----- wiring ----- */
+  S.boot = function () {
+    $('#tabs').innerHTML = TABS.map(function (t) {
+      return '<button class="tab t-' + t.color + '" data-act="go" data-to="' + t.id + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[t.id] + '</svg><span>' + t.label + '</span></button>';
+    }).join('');
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-act]');
+      if (!t) return;
+      var f = S.ACT[t.dataset.act];
+      if (f) f(t, e);
+    });
+    var h = (location.hash || '').replace('#', '');
+    S.go(S.VIEWS[h] ? h : 'home');
+  };
+  return S;
+})();
+</script>
+<script>
+/* ===== LEARN: concepts explained simply ===== */
+(function (S) {
+  var D = window.SWD, $ = S.$, $$ = S.$$, esc = S.esc;
+
+  /* ----- life-cycle ring viewer ----- */
+  var LCS = {};
+  function pt(a, R) { var r = a * Math.PI / 180; return [50 + R * Math.sin(r), 50 - R * Math.cos(r)]; }
+  function lcHTML(id, keys) {
+    var first = D.LC[keys[0]];
+    return '<div class="lc t-' + first.color + '" id="' + id + '">' +
+      (keys.length > 1 ? '<div class="pills">' + keys.map(function (k, i) { return '<button class="chip" data-act="lckey" data-id="' + id + '" data-k="' + k + '" aria-pressed="' + (i === 0) + '">' + D.LC[k].name + '</button>'; }).join('') + '</div>' : '') +
+      '<div class="ring"></div><div class="lc-panel"></div>' +
+      '<div class="lc-ctrl"><button class="btn ghost" data-act="lcprev" data-id="' + id + '">Back</button><button class="btn" data-act="lcplay" data-id="' + id + '">Play</button><button class="btn ghost" data-act="lcnext" data-id="' + id + '">Next</button></div></div>';
+  }
+  function lcInit(id, key) { LCS[id] = { key: key, i: 0, timer: null }; lcRender(id); }
+  function lcRender(id) {
+    var s = LCS[id], root = document.getElementById(id); if (!root) return;
+    var d = D.LC[s.key], n = d.stages.length;
+    root.className = 'lc t-' + d.color;
+    var R = 37, gap = n === 3 ? 26 : 23, arcs = '';
+    for (var i = 0; i < n; i++) {
+      var a1 = i * 360 / n + gap, a2 = (i + 1) * 360 / n - gap, p1 = pt(a1, R), p2 = pt(a2, R);
+      var tip = pt(a2 + 2, R), ang = a2 + 90;
+      arcs += '<path d="M' + p1[0].toFixed(2) + ' ' + p1[1].toFixed(2) + ' A' + R + ' ' + R + ' 0 0 1 ' + p2[0].toFixed(2) + ' ' + p2[1].toFixed(2) + '"/>' +
+        '<path d="M-2 -1.8 L1.2 0 L-2 1.8" transform="translate(' + p2[0].toFixed(2) + ' ' + p2[1].toFixed(2) + ') rotate(' + ang.toFixed(1) + ')" style="stroke-dasharray:none;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round"/>';
+    }
+    var nodes = d.stages.map(function (st, i) {
+      var p = pt(i * 360 / n, R);
+      return '<button class="node' + (i === s.i ? ' on' : '') + '" style="left:' + p[0].toFixed(1) + '%;top:' + p[1].toFixed(1) + '%" data-act="lcnode" data-id="' + id + '" data-i="' + i + '" aria-label="' + esc(st.t) + '"><span class="vis' + (st.small ? ' small' : '') + '">' + st.v + '</span><span class="cap">' + esc(st.s) + '</span></button>';
+    }).join('');
+    $('.ring', root).innerHTML = '<svg class="ring-svg" viewBox="0 0 100 100" aria-hidden="true">' + arcs + '</svg><div class="ring-center"><div class="ring-art">' + d.stages[s.i].v + '</div></div>' + nodes;
+    var st = d.stages[s.i];
+    $('.lc-panel', root).innerHTML = '<div class="pa">' + st.v + '</div><div class="pt"><p class="eyebrow" style="color:var(--ct)">Stage ' + (s.i + 1) + ' of ' + n + '</p><h3>' + esc(st.t) + '</h3>' + (st.kw ? '<span class="kw">' + esc(st.kw) + '</span>' : '') + '<p>' + esc(st.d) + '</p>' + (d.fact && s.i === n - 1 ? '<p class="muted" style="font-size:15px;margin-top:4px">' + esc(d.fact) + '</p>' : '') + '</div>';
+    var pb = $('[data-act="lcplay"]', root); if (pb) pb.textContent = s.timer ? 'Pause' : 'Play';
+  }
+  function lcStop(id) { var s = LCS[id]; if (s && s.timer) { clearInterval(s.timer); s.timer = null; } }
+  function lcStep(id, dir) { var s = LCS[id], n = D.LC[s.key].stages.length; s.i = (s.i + dir + n) % n; lcRender(id); }
+  S.ACT.lcnode = function (t) { var id = t.dataset.id; lcStop(id); LCS[id].i = +t.dataset.i; lcRender(id); };
+  S.ACT.lcnext = function (t) { lcStop(t.dataset.id); lcStep(t.dataset.id, 1); };
+  S.ACT.lcprev = function (t) { lcStop(t.dataset.id); lcStep(t.dataset.id, -1); };
+  S.ACT.lcplay = function (t) {
+    var id = t.dataset.id, s = LCS[id];
+    if (s.timer) { lcStop(id); lcRender(id); return; }
+    s.timer = setInterval(function () { lcStep(id, 1); }, 2600); lcRender(id);
+  };
+  S.ACT.lckey = function (t) {
+    var id = t.dataset.id; lcStop(id); LCS[id].key = t.dataset.k; LCS[id].i = 0;
+    $$('[data-act="lckey"][data-id="' + id + '"]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === t)); });
+    lcRender(id);
+  };
+
+  /* ----- egg explorer ----- */
+  var PARTS = {
+    shell: ['Shell', 'The hard, strong outside cover of the egg. The shell protects the young one inside.'],
+    albumen: ['Albumen (egg white)', 'White, thick and jelly-like. It is a rich source of protein and it protects the growing baby.'],
+    yolk: ['Yolk', 'Yellow and round. It is rich in fat, vitamins and minerals. The yolk gives food (nutrition) to the growing baby.'],
+    spot: ['The chick spot', 'A tiny bright white spot on the yolk. This is the part that grows into the baby chick.']
+  };
+  var EGGX = '<svg class="egg-x" id="eggx" data-sel="yolk" viewBox="0 0 240 300" role="img" aria-label="Inside of a bird\'s egg">' +
+    '<path class="part p-shell" data-act="part" data-p="shell" d="M120 10C175 10 222 100 222 175 222 245 176 290 120 290 64 290 18 245 18 175 18 100 65 10 120 10Z" fill="var(--shell)" stroke="#B9965E" stroke-width="3"/>' +
+    '<path class="part p-albumen" data-act="part" data-p="albumen" d="M120 10C175 10 222 100 222 175 222 245 176 290 120 290 64 290 18 245 18 175 18 100 65 10 120 10Z" transform="translate(120 160) scale(.88) translate(-120 -160)" fill="var(--albumen)" stroke="#D9D2BE" stroke-width="2"/>' +
+    '<circle class="part p-yolk" data-act="part" data-p="yolk" cx="120" cy="178" r="56" fill="var(--yolk)" stroke="#E08A00" stroke-width="3"/>' +
+    '<circle class="part p-spot" data-act="part" data-p="spot" cx="120" cy="156" r="13" fill="#fff" stroke="#E7D9B0" stroke-width="2"/></svg>';
+  function showPart(p) {
+    $('#eggx').dataset.sel = p;
+    $('#partBox').innerHTML = '<h3>' + PARTS[p][0] + '</h3><p>' + PARTS[p][1] + '</p>';
+    $$('[data-act="part"].chip').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.p === p)); });
+  }
+  S.ACT.part = function (t) { showPart(t.dataset.p); };
+
+  var sc = function (n) { return '<div class="scene-wrap">' + window.ART.scene(n) + '</div>'; };
+  var tileE = function (x) { return x.indexOf('art:') === 0 ? window.ART.svg(x.slice(4)) : x; };
+  var remember = function (txt) { return '<div class="remember"><b>Remember</b><span>' + txt + '</span></div>'; };
+  var head = function (eyebrow, title) { return '<div class="sec-head"><p class="eyebrow">' + eyebrow + '</p><h2>' + title + '</h2></div>'; };
+
+  var NAV = [['l-why', 'Why babies?'], ['l-eggs', 'Egg-layers'], ['l-birds', 'Birds'], ['l-frog', 'Frogs'], ['l-insects', 'Insects'], ['l-reptiles', 'Reptiles'], ['l-mammals', 'Mammals'], ['l-words', 'Key words'], ['l-story', 'Story']];
+
+  S.VIEWS.learn = function () {
+    return '' +
+      '<div class="sec-head"><p class="eyebrow">Learn</p><h1>Easy ideas, one at a time</h1><p class="lead">Tap the pictures. Press Play on the life cycles. Read in any order.</p></div>' +
+      '<div class="subnav"><div class="chips">' + NAV.map(function (n) { return '<button class="chip" data-act="jump" data-to="' + n[0] + '" aria-pressed="false">' + n[1] + '</button>'; }).join('') + '</div></div>' +
+
+      /* why */
+      '<section class="lsec t-green" id="l-why">' + head('Idea 1', 'Why do animals have babies?') + sc('home') +
+      '<div class="card"><p>All living things breathe, eat and grow. They also have babies. Making babies is called <b>reproduction</b>.</p><p style="margin-top:10px">If animals did not make babies, their kind would disappear from the Earth one day. So reproduction keeps life going.</p></div>' +
+      '<div class="two-ways"><div class="way t-sun"><span class="big">' + window.ART.svg('egg') + '</span><h3>Way 1: lay eggs</h3><p>The babies hatch out of eggs.</p></div><div class="way t-blue"><span class="big">' + window.ART.svg('kangaroo') + '</span><h3>Way 2: give birth</h3><p>The babies are born alive.</p></div></div>' +
+      remember('Reproduction means making young ones. Animals do it in two ways: lay eggs or give birth.') + '</section>' +
+
+      /* egg layers */
+      '<section class="lsec t-sun" id="l-eggs">' + head('Idea 2', 'Egg-laying animals') + sc('birds') +
+      '<div class="card"><p>Animals that lay eggs are called <b>egg-laying animals</b>. They put their eggs in a safe place. Some of them sit on the eggs to keep them warm. When the time is right, the egg breaks and the baby comes out.</p>' +
+      '<p style="margin-top:10px">The <b>embryo</b> is the baby that is still growing inside the egg. The journey of an embryo growing into a young one is the <b>life cycle</b> of that animal.</p></div>' +
+      '<div class="tiles">' + [['art:hen', 'Birds', 'hen'], ['🐟', 'Fish', 'hundreds of eggs'], ['art:turtle', 'Turtles', 'hard shells'], ['art:frog', 'Frogs', 'in water'], ['🐍', 'Reptiles', 'in a hole'], ['art:butterfly', 'Insects', 'all of them']].map(function (t) { return '<div class="tile"><span class="e">' + tileE(t[0]) + '</span>' + t[1] + '<small>' + t[2] + '</small></div>'; }).join('') + '</div>' +
+      remember('The life cycle is the journey from an embryo to a grown-up animal.') + '</section>' +
+
+      /* birds */
+      '<section class="lsec t-sun" id="l-birds">' + head('Idea 3', 'Birds and the egg') +
+      '<div class="card"><p>Most birds lay eggs in a nest. A parent usually sits on the eggs to keep them warm. This is called <b>incubation</b>. It helps the baby inside to grow. When the baby is ready, the chick breaks the shell and comes out. This is called <b>hatching</b>.</p></div>' +
+      '<div class="card"><h3>Look inside a bird\'s egg</h3><p class="muted" style="margin-bottom:12px">Tap a part of the egg.</p><div class="explorer">' + EGGX +
+      '<div class="part-info"><div class="chips" style="flex-wrap:wrap;overflow:visible">' + Object.keys(PARTS).map(function (k) { return '<button class="chip" data-act="part" data-p="' + k + '" aria-pressed="' + (k === 'yolk') + '">' + PARTS[k][0].split(' (')[0] + '</button>'; }).join('') + '</div><div class="box" id="partBox"></div></div></div></div>' +
+      '<div class="card"><h3>Life cycle of a hen</h3>' + lcHTML('lc-hen', ['hen']) + '</div>' +
+      remember('Incubation keeps eggs warm. Hatching is breaking out of the egg.') + '</section>' +
+
+      /* frog */
+      '<section class="lsec t-green" id="l-frog">' + head('Idea 4', 'Water animals: the frog') + sc('frog') +
+      '<div class="card"><p>Many water animals, like frogs and fish, lay eggs too. A fish lays hundreds of eggs at a time, but only a few become baby fish.</p><p style="margin-top:10px">A frog lays eggs in water or wet places. The eggs float in a big cluster called <b>frogspawn</b>. A tiny <b>tadpole</b> hatches out. It looks like a fish. It has a tail and breathes with gills. Step by step, it changes into a frog. This big change is called <b>metamorphosis</b>.</p></div>' +
+      '<div class="card"><h3>Life cycle of a frog</h3>' + lcHTML('lc-frog', ['frog']) + '</div>' +
+      remember('Frogspawn, then tadpole, then frog. Gills first, lungs later. The change is metamorphosis.') + '</section>' +
+
+      /* insects */
+      '<section class="lsec t-coral" id="l-insects">' + head('Idea 5', 'Insects') + sc('insects') +
+      '<div class="card"><p>All insects lay eggs. Some insects have 3 stages in their life cycle and some have 4.</p></div>' +
+      '<div class="cmp"><div class="t-coral"><h4>3 stages</h4><ul><li>Cockroach, grasshopper</li><li>Egg, nymph, adult</li><li>The nymph looks like its parent but has no wings.</li><li>It sheds its old skin many times. This is <b>moulting</b>.</li></ul></div>' +
+      '<div class="t-violet"><h4>4 stages</h4><ul><li>Butterfly, housefly</li><li>Egg, larva, pupa, adult</li><li>The larva (caterpillar) eats and grows.</li><li>The pupa is inside a silky <b>cocoon</b>.</li></ul></div></div>' +
+      '<div class="card"><h3>Watch the life cycles</h3>' + lcHTML('lc-insect', ['cockroach', 'butterfly']) + '</div>' +
+      remember('A butterfly\'s body changes completely, so it shows metamorphosis too.') + '</section>' +
+
+      /* reptiles */
+      '<section class="lsec t-green" id="l-reptiles">' + head('Idea 6', 'Reptiles') + sc('reptiles') +
+      '<div class="card"><p>Snakes, turtles, lizards and crocodiles are <b>reptiles</b>. They dig a hole in the ground and lay their eggs in it. The shells of crocodile and turtle eggs are very hard and do not break easily.</p><p style="margin-top:10px">Some reptiles leave the eggs to hatch on their own. But a crocodile is a caring parent. The mother guards her eggs and looks after the babies when they hatch.</p></div>' +
+      '<div class="tiles">' + [['🐍', 'Snake'], ['art:turtle', 'Turtle'], ['🦎', 'Lizard'], ['🐊', 'Crocodile']].map(function (t) { return '<div class="tile"><span class="e">' + tileE(t[0]) + '</span>' + t[1] + '</div>'; }).join('') + '</div>' +
+      remember('Reptiles lay eggs in a hole in the ground. The crocodile is a caring parent.') + '</section>' +
+
+      /* mammals */
+      '<section class="lsec t-blue" id="l-mammals">' + head('Idea 7', 'Mammals: animals that give birth') + sc('mammals') +
+      '<div class="card"><p>Animals that give birth and feed their own milk to their babies are <b>mammals</b>. Mammals have the smartest brains of all animals. They have hair on their body and breathe with lungs.</p></div>' +
+      '<div class="tiles">' + [['🧑‍🤝‍🧑', 'Humans'], ['🐱', 'Cats'], ['🐶', 'Dogs'], ['🐬', 'Dolphins'], ['🦇', 'Bats'], ['🐇', 'Rabbits'], ['🐴', 'Horses'], ['🐘', 'Elephants'], ['🐒', 'Monkeys'], ['🐻', 'Bears']].map(function (t) { return '<div class="tile"><span class="e">' + t[0] + '</span>' + t[1] + '</div>'; }).join('') + '</div>' +
+      '<div class="cmp"><div class="t-blue"><h4>Water mammals 🐋</h4><p>Whales and dolphins live in water. They have no hair but breathe with lungs. They come up to the surface and breathe air through a <b>blowhole</b> on top of the head.</p></div>' +
+      '<div class="t-sun"><h4>Bats 🦇</h4><p>Bats are the only mammals that can fly.</p></div></div>' +
+      '<div class="card"><h3>How mammals look after their babies</h3><ul class="bul" style="margin-top:8px"><li>They feed the babies their own milk.</li><li>They keep them warm with their body.</li><li>They protect them from predators.</li><li>They teach them how to hunt for food.</li><li>They look after them for a long time. A baby chimpanzee can stay with its mother for up to 4 years. A baby rat leaves after about 3 weeks.</li></ul></div>' +
+      '<div class="card t-sun tint"><h3>Marsupials 🦘</h3><p style="margin-top:6px">Some mammals carry their babies in a <b>pouch</b> on their body. They are called <b>marsupials</b>. A kangaroo keeps its baby in its pouch. A koala keeps its baby in the pouch for about the first six months. After that, the baby rides on its back or clings to its parent.</p></div>' +
+      remember('Mammals give birth, feed milk, have hair and breathe with lungs. They care for babies for a long time.') + '</section>' +
+
+      /* words */
+      '<section class="lsec t-violet" id="l-words">' + head('Key words', 'Words to remember') +
+      '<div class="words">' + D.KEYWORDS.map(function (k) { return '<div class="card word"><h4>' + k[0] + '</h4><p>' + k[1] + '</p><p class="kid">In simple words: ' + k[2] + '</p></div>'; }).join('') + '</div></section>' +
+
+      /* story */
+      '<section class="lsec t-sun" id="l-story">' + head('Connect to life', 'Cocoon and the Butterfly') +
+      '<div class="card story"><p>Rajan found a caterpillar in the park. He kept it in a jar with leaves and a stick, and watched it every day. The caterpillar built a cocoon. Rajan\'s father told him it would go through metamorphosis and become a butterfly.</p>' +
+      '<p>One day Rajan saw the butterfly struggling to get out of a small hole. He felt sorry for it and tore the cocoon to make the hole bigger. The butterfly came out quickly, but its body was swollen and its wings were small. It could never fly.</p>' +
+      '<p>Rajan\'s father explained: the struggle pushes fluid from the butterfly\'s body into its wings. That struggle is nature\'s way of making the butterfly strong enough to fly.</p>' +
+      '<div class="moral">Moral: Struggles and problems make us stronger.</div></div></section>' +
+
+      /* summary */
+      '<section class="lsec t-green" id="l-sum">' + head('Summary', 'Five things to remember') +
+      '<div class="card"><ol class="bul" style="padding-left:24px"><li>All living things reproduce so that life continues.</li><li>Animals reproduce in two ways: by giving birth or by laying eggs.</li><li>Birds, fish, turtles, frogs, lizards and insects lay eggs. They are egg-laying animals.</li><li>Animals that give birth and feed milk are mammals, like humans, dogs and dolphins.</li><li>Mammals take care of their young ones for a longer time.</li></ol></div>' +
+      '<div class="row"><button class="btn" data-act="go" data-to="qa" style="--c:var(--blue);--on:var(--on-blue)">Open Q &amp; A</button><button class="btn" data-act="go" data-to="quiz" style="--c:var(--coral);--on:var(--on-coral)">Take the quiz</button></div></section>';
+  };
+
+  S.INIT.learn = function () {
+    showPart('yolk');
+    lcInit('lc-hen', 'hen'); lcInit('lc-frog', 'frog'); lcInit('lc-insect', 'cockroach');
+    S.onLeave(function () { Object.keys(LCS).forEach(lcStop); });
+  };
+  S.ACT.jump = function (t) {
+    var el = document.getElementById(t.dataset.to);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+})(window.SW);
+</script>
+<script>
+/* ===== Q & A: every question from the book, with answers ===== */
+(function (S) {
+  var D = window.SWD, $ = S.$, $$ = S.$$, esc = S.esc;
+  var L = ['A', 'B', 'C', 'D'];
+  var allOpen = false;
+
+  function mapAnswer() {
+    return '<div class="cmap">' +
+      '<div class="cm-top">Reproduction in Animals</div>' +
+      '<div class="cm-cols">' +
+      '<div class="cm-col"><span class="cm-pill">LAY <b>EGGS</b></span><div class="cm-box">Egg-laying animals</div>' +
+      '<div class="cm-grid">' +
+      [['BIRDS', 'hen, crow, sparrow'], ['INSECTS', 'cockroach, butterfly, grasshopper, housefly'], ['WATER animals', 'frog, fish'], ['REPTILES', 'snake, turtle, lizard, crocodile']].map(function (c) { return '<div><div class="cm-b">' + c[0] + '</div><div class="cm-ex">' + c[1] + '</div></div>'; }).join('') +
+      '</div></div>' +
+      '<div class="cm-col"><span class="cm-pill">GIVE <b>BIRTH</b></span><div class="cm-box">Mammals</div><div class="cm-ex">human, cat, dog, dolphin, bat</div></div>' +
+      '</div><p class="muted" style="font-size:14px">Any correct examples are fine for the boxes.</p></div>';
+  }
+
+  function res(yn, num, art, name) {
+    return '<div class="ft-res"><span class="ft-yn ' + yn + '">' + (yn === 'y' ? 'Yes' : 'No') + '</span><div class="ft-card">' + (art.length < 6 ? '<span class="em">' + art + '</span>' : window.ART.svg(art)) + '<span><b>' + num + '</b> ' + name + '</span></div></div>';
+  }
+  function flowTree() {
+    return '<div class="ftree"><div class="ft-q">START: Is it an egg-laying animal?</div><div class="ft-cols">' +
+      '<div class="ft-col"><span class="ft-yn y">Yes</span><div class="ft-q s">Does it lay eggs in large clusters that float on water?</div>' + res('y', '2:', 'frog', 'Frog') + res('n', '1:', 'hen', 'Hen') + '</div>' +
+      '<div class="ft-col"><span class="ft-yn n">No</span><div class="ft-q s">It is a mammal. Does it have hair on its body?</div>' + res('y', '3:', '🐶', 'Dog') + res('n', '4:', '🐋', 'Whale') + '</div></div></div>';
+  }
+
+  function card(it, n) {
+    var h = '<article class="qa card' + (it.extra ? '' : '') + '" data-a="' + (it.o ? it.a : -1) + '">';
+    var q;
+    if (it.blank) {
+      q = esc(it.pre) + '<span class="blank" data-blank>&nbsp;</span>' + esc(it.post);
+    } else q = esc(it.q);
+    h += '<div class="qa-head"><span class="qa-n">Q' + n + '</span><p class="qa-q">' + q + '</p></div>';
+    if (it.extra) h += '<span class="tag-extra">Extra question, not in the book</span>';
+    if (it.o) {
+      h += '<div class="opts">' + it.o.map(function (o, i) { return '<button class="opt" data-act="qaopt" data-i="' + i + '"><i>' + (it.o.length === 2 && !it.blank ? (i ? 'F' : 'T') : L[i]) + '</i>' + esc(o) + '</button>'; }).join('') + '</div>';
+    }
+    h += '<div class="qa-a"><b class="lab">Answer</b>';
+    if (it.o) h += '<p class="ans">' + esc(it.o[it.a]) + '</p>' + (it.why ? '<p>' + esc(it.why) + '</p>' : '');
+    else if (it.map) h += mapAnswer();
+    else if (it.match) h += '<div class="pairs">' + it.match.map(function (m) { return '<div class="pair"><span class="e">' + m[0] + '</span>' + m[1] + ' → <b>' + m[2] + '</b></div>'; }).join('') + '</div>';
+    else if (it.flow) h += flowTree();
+    else if (it.list) h += '<ul class="bul">' + it.list.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    else if (it.table) h += '<div class="tbl"><table><thead><tr>' + it.table[0].map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      it.table.slice(1).map(function (r) { return '<tr>' + r.map(function (c, i) { return (i === 0 ? '<th scope="row">' : '<td>') + esc(c) + (i === 0 ? '</th>' : '</td>'); }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+    else h += '<p class="ans">' + esc(it.a) + '</p>';
+    h += '</div>';
+    h += '<div><button class="btn ghost sm" data-act="qatoggle">Show answer</button></div></article>';
+    return h;
+  }
+
+  function setOpen(c, open) {
+    c.classList.toggle('open', open);
+    var b = $('[data-act="qatoggle"]', c); if (b) b.textContent = open ? 'Hide answer' : 'Show answer';
+    var bl = $('[data-blank]', c);
+    var a = +c.dataset.a;
+    if (open && a >= 0) {
+      $$('.opt', c).forEach(function (o, i) { if (i === a) o.classList.add('right'); });
+      if (bl) bl.textContent = $$('.opt', c)[a].textContent.replace(/^[A-Z]/, '');
+    } else {
+      $$('.opt', c).forEach(function (o) { o.classList.remove('right', 'wrong'); });
+      if (bl) bl.innerHTML = '&nbsp;';
+    }
+  }
+
+  S.VIEWS.qa = function () {
+    var total = 0;
+    D.QA.forEach(function (g) { g.items.forEach(function (it) { if (!it.extra) total++; }); });
+    var n = 0;
+    return '' +
+      '<div class="sec-head"><p class="eyebrow">Questions and Answers</p><h1>Your whole book, answered</h1>' +
+      '<p class="lead">All ' + total + ' questions from the chapter are here. Try to answer first, then tap <b>Show answer</b>. For choice questions, tap an option to test yourself.</p></div>' +
+      '<div class="row"><button class="btn" id="qaAll" data-act="qaall">Show all answers</button></div>' +
+      '<div class="chips" id="qaChips"><button class="chip" data-act="qafilter" data-g="all" aria-pressed="true">All</button>' +
+      D.QA.map(function (g) { return '<button class="chip" data-act="qafilter" data-g="' + g.id + '" aria-pressed="false">' + esc(g.title.replace(/^[IV]+\.\s*([A-D]\.\s*)?/, '')) + '</button>'; }).join('') + '</div>' +
+      D.QA.map(function (g) {
+        return '<section class="qa-group t-' + g.color + '" data-group="' + g.id + '"><div class="sec-head"><h2>' + esc(g.title) + '</h2><p class="muted">' + esc(g.sub) + '</p></div>' +
+          g.items.map(function (it) { n++; return card(it, it.extra ? '+' : n); }).join('') + '</section>';
+      }).join('');
+  };
+
+  S.INIT.qa = function () { allOpen = false; };
+
+  S.ACT.qatoggle = function (t) { var c = t.closest('.qa'); setOpen(c, !c.classList.contains('open')); };
+  S.ACT.qaopt = function (t) {
+    var c = t.closest('.qa'), a = +c.dataset.a, i = +t.dataset.i;
+    setOpen(c, true);
+    if (i !== a) t.classList.add('wrong');
+  };
+  S.ACT.qaall = function (t) {
+    allOpen = !allOpen;
+    $$('.qa').forEach(function (c) { setOpen(c, allOpen); });
+    t.textContent = allOpen ? 'Hide all answers' : 'Show all answers';
+  };
+  S.ACT.qafilter = function (t) {
+    var g = t.dataset.g;
+    $$('#qaChips .chip').forEach(function (b) { b.setAttribute('aria-pressed', String(b === t)); });
+    $$('.qa-group').forEach(function (s) { s.hidden = !(g === 'all' || s.dataset.group === g); });
+  };
+})(window.SW);
+</script>
+<script>
+/* ===== QUIZ: MCQ on the chapter ===== */
+(function (S) {
+  var D = window.SWD, $ = S.$, $$ = S.$$, esc = S.esc, shuffle = S.shuffle;
+  var L = ['A', 'B', 'C', 'D'];
+  var Z = null; // { list:[{q,o,a,why,idx}], i, picks:[], size }
+
+  function best() { return S.store.get('quizBest', {}); }
+
+  function intro() {
+    var b = best(), total = D.QUIZ.length;
+    var sizes = [[10, 'Quick'], [20, 'Medium'], [total, 'Full chapter']];
+    return '<div class="scene-wrap">' + window.ART.scene('quiz') + '</div><div class="sec-head"><p class="eyebrow">Quiz</p><h1>Show what you know</h1>' +
+      '<p class="lead">Multiple choice questions on the whole chapter. Pick how many you want. You can jump to any question, and finish whenever you like.</p></div>' +
+      '<div class="sizes">' + sizes.map(function (s) {
+        var key = s[0], bb = b[key];
+        return '<button class="size t-coral" data-act="quizstart" data-n="' + key + '"><span class="eyebrow">' + s[1] + '</span><b>' + key + '</b><span>questions</span>' + (bb ? '<span class="muted" style="font-size:14px">Best: ' + bb.score + '/' + bb.total + '</span>' : '<span class="muted" style="font-size:14px">Not tried yet</span>') + '</button>';
+      }).join('') + '</div>';
+  }
+
+  function run() {
+    var q = Z.list[Z.i], pick = Z.picks[Z.i], n = Z.list.length;
+    var done = Z.picks.filter(function (p) { return p != null; }).length;
+    var h = '<div class="q-top"><b>Question ' + (Z.i + 1) + ' of ' + n + '</b><div class="bar" aria-hidden="true"><i style="width:' + (done / n * 100) + '%"></i></div>' +
+      '<button class="btn ghost sm" data-act="quizfinish">Finish now</button></div>' +
+      '<div class="dots">' + Z.list.map(function (x, i) {
+        var p = Z.picks[i], cls = 'dot' + (i === Z.i ? ' cur' : '') + (p != null ? (x.order[p] === x.a ? ' ok' : ' no') : '');
+        return '<button class="' + cls + '" data-act="quizgo" data-i="' + i + '" aria-label="Question ' + (i + 1) + '">' + (i + 1) + '</button>';
+      }).join('') + '</div>' +
+      '<div class="card q-card"><p class="q-text">' + esc(q.q) + '</p><div class="q-opts">' +
+      q.order.map(function (oi, k) {
+        var cls = 'q-opt';
+        if (pick != null) { if (oi === q.a) cls += ' right'; else if (k === pick) cls += ' wrong'; }
+        return '<button class="' + cls + '" data-act="quizpick" data-k="' + k + '"' + (pick != null ? ' disabled' : '') + '><i>' + L[k] + '</i>' + esc(q.o[oi]) + '</button>';
+      }).join('') + '</div>';
+    if (pick != null) {
+      var ok = q.order[pick] === q.a;
+      h += '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? 'Correct! Well done.' : 'Not quite.') + '</b>' + esc(q.why) + '</div>';
+    }
+    h += '<div class="row"><button class="btn ghost" data-act="quizprev"' + (Z.i === 0 ? ' disabled style="opacity:.4"' : '') + '>Back</button>' +
+      (Z.i < n - 1 ? '<button class="btn" data-act="quiznext">Next question</button>' : '<button class="btn" data-act="quizfinish">See my score</button>') + '</div></div>';
+    return h;
+  }
+
+  function results() {
+    var n = Z.list.length, score = 0, missed = [];
+    Z.list.forEach(function (x, i) { var p = Z.picks[i]; if (p != null && x.order[p] === x.a) score++; else missed.push(x); });
+    var pct = score / n, stars = pct >= .9 ? 3 : pct >= .6 ? 2 : 1;
+    var msg = pct >= .9 ? 'Superstar scientist!' : pct >= .6 ? 'Great work, keep going!' : 'Good try! Read the Learn tab and try again.';
+    var b = best(), prev = b[Z.size];
+    if (!prev || score / n > prev.score / prev.total) { b[Z.size] = { score: score, total: n }; S.store.set('quizBest', b); }
+    if (pct >= .6) setTimeout(S.celebrate, 200);
+    return '<div class="card t-coral" style="text-align:center;display:flex;flex-direction:column;gap:14px">' +
+      '<p class="eyebrow">Your score</p><p class="score">' + score + ' / ' + n + '</p>' +
+      '<div class="stars" aria-label="' + stars + ' out of 3 stars">' + [1, 2, 3].map(function (k) { return '<svg viewBox="0 0 24 24" class="' + (k <= stars ? 'on' : '') + '"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>'; }).join('') + '</div>' +
+      '<h2>' + msg + '</h2>' +
+      '<div class="row" style="justify-content:center"><button class="btn" data-act="quizstart" data-n="' + Z.size + '">Try again</button>' +
+      (missed.length ? '<button class="btn ghost" data-act="quizmissed">Practise missed ones</button>' : '') +
+      '<button class="btn ghost" data-act="quizmenu">Change size</button></div></div>' +
+      (missed.length ? '<div class="sec-head"><h3>Let\'s look at these again</h3></div><div class="miss">' + missed.map(function (x) { return '<div><b>' + esc(x.q) + '</b><br><span class="rt">' + esc(x.o[x.a]) + '</span> <span class="muted">' + esc(x.why) + '</span></div>'; }).join('') + '</div>' : '');
+  }
+
+  function draw() { $('#quizRoot').innerHTML = !Z ? intro() : Z.done ? results() : run(); }
+  function build(list, size) {
+    Z = { list: list.map(function (x) { return Object.assign({}, x, { order: shuffle([0, 1, 2, 3].slice(0, x.o.length)) }); }), i: 0, picks: [], size: size, done: false };
+  }
+
+  S.VIEWS.quiz = function () { return '<div id="quizRoot" style="display:flex;flex-direction:column;gap:16px"></div>'; };
+  S.INIT.quiz = function () { Z = null; draw(); };
+
+  S.ACT.quizstart = function (t) {
+    var n = +t.dataset.n;
+    build(shuffle(D.QUIZ).slice(0, n), n); draw(); window.scrollTo(0, 0);
+  };
+  S.ACT.quizmenu = function () { Z = null; draw(); };
+  S.ACT.quizmissed = function () {
+    var miss = Z.list.filter(function (x, i) { var p = Z.picks[i]; return !(p != null && x.order[p] === x.a); });
+    build(miss, Z.size); draw(); window.scrollTo(0, 0);
+  };
+  S.ACT.quizpick = function (t) {
+    if (Z.picks[Z.i] != null) return;
+    Z.picks[Z.i] = +t.dataset.k; draw();
+  };
+  S.ACT.quizgo = function (t) { Z.i = +t.dataset.i; draw(); };
+  S.ACT.quiznext = function () { if (Z.i < Z.list.length - 1) { Z.i++; draw(); window.scrollTo(0, 0); } };
+  S.ACT.quizprev = function () { if (Z.i > 0) { Z.i--; draw(); } };
+  S.ACT.quizfinish = function () { Z.done = true; draw(); window.scrollTo(0, 0); };
+})(window.SW);
+</script>
+<script>
+/* ===== PLAY: games ===== */
+(function (S) {
+  var D = window.SWD, $ = S.$, $$ = S.$$, esc = S.esc, shuffle = S.shuffle;
+  var G = null;           // current game id
+  var st = {};            // state of current game
+
+  var GAMES = [
+    { id: 'sort', art: 'egg', e: '🥚', color: 'sun', t: 'Egg or Birth?', d: 'Does the animal lay eggs or give birth?' },
+    { id: 'match', art: 'chick', e: '🐣', color: 'green', t: 'Baby Match', d: 'Match each parent with its baby.' },
+    { id: 'order', art: 'butterfly', e: '🔄', color: 'blue', t: 'Life Cycle Builder', d: 'Put the stages in the right order.' },
+    { id: 'cross', e: '🧩', color: 'violet', t: 'Book Crossword', d: 'The crossword from page 195.' },
+    { id: 'riddle', e: '❓', color: 'coral', t: 'Riddle Time', d: 'Five riddles from your book.' },
+    { id: 'detect', art: 'frog', e: '🔍', color: 'green', t: 'Animal Detective', d: 'Think of an animal. I will guess it!' },
+    { id: 'hunt', art: 'caterpillar', e: '🧭', color: 'sun', t: 'Egg-hunt Expedition', d: 'A real outdoor mission with a checklist.' }
+  ];
+  var byId = function (id) { return GAMES.filter(function (g) { return g.id === id; })[0]; };
+
+  var hub = function () {
+    return '<div class="sec-head"><p class="eyebrow">Play</p><h1>Games that teach</h1><p class="lead">Seven games. All open. Pick any one.</p></div>' +
+      '<div class="scene-wrap">' + window.ART.scene('play') + '</div><div class="games">' + GAMES.map(function (g) { return '<button class="g-card t-' + g.color + '" data-act="game" data-g="' + g.id + '">' + (g.art ? window.ART.svg(g.art, 'ga') : '<span class="e">' + g.e + '</span>') + '<h3>' + g.t + '</h3><p>' + g.d + '</p></button>'; }).join('') + '</div>';
+  };
+  var shell = function (g, inner) {
+    return '<div class="g-top"><button class="btn ghost sm" data-act="game" data-g="">← All games</button><h2>' + g.t + '</h2></div><div class="card t-' + g.color + '" id="gbody" style="display:flex;flex-direction:column;gap:16px">' + inner + '</div>';
+  };
+
+  S.VIEWS.play = function () { G = null; return '<div id="playRoot" style="display:flex;flex-direction:column;gap:18px"></div>'; };
+  S.INIT.play = function () { G = null; draw(); };
+  function draw() {
+    var r = $('#playRoot');
+    if (!G) { r.innerHTML = hub(); return; }
+    var g = byId(G);
+    r.innerHTML = shell(g, GM[G].html());
+    r.className = 't-' + g.color;
+    if (GM[G].init) GM[G].init();
+  }
+  S.ACT.game = function (t) {
+    G = t.dataset.g || null; st = {};
+    if (G && GM[G].start) GM[G].start();
+    draw(); window.scrollTo(0, 0);
+  };
+  var redraw = function () { $('#gbody').innerHTML = GM[G].html(); if (GM[G].init) GM[G].init(); };
+
+  var GM = {};
+
+  /* ---------- 1. Egg or Birth ---------- */
+  GM.sort = {
+    start: function () { st = { list: shuffle(D.SORT).slice(0, 10), i: 0, score: 0, ans: null }; },
+    html: function () {
+      if (st.i >= st.list.length) {
+        setTimeout(function () { if (st.score >= 7) S.celebrate(); }, 100);
+        return '<p class="score" style="text-align:center">' + st.score + ' / ' + st.list.length + '</p><h3 style="text-align:center">' + (st.score >= 8 ? 'Amazing sorting!' : 'Nice try! Play again to improve.') + '</h3><div class="row" style="justify-content:center"><button class="btn" data-act="sortagain">Play again</button></div>';
+      }
+      var a = st.list[st.i];
+      return '<p class="muted"><b>' + (st.i + 1) + ' of ' + st.list.length + '</b> · Score ' + st.score + '</p><div class="big-e">' + a.e + '</div><h2 style="text-align:center">' + a.n + '</h2>' +
+        '<div class="two"><button class="btn choice" data-act="sortpick" data-v="1"' + (st.ans !== null ? ' disabled' : '') + '>🥚 Lays eggs</button><button class="btn choice" data-act="sortpick" data-v="0" style="--c:var(--blue);--on:var(--on-blue)"' + (st.ans !== null ? ' disabled' : '') + '>🤱 Gives birth</button></div>' +
+        (st.ans !== null ? '<div class="fb ' + (st.ans ? 'ok' : 'no') + '"><b>' + (st.ans ? 'Correct!' : 'Not quite.') + '</b>' + esc(a.why) + '</div><button class="btn" data-act="sortnext">Next</button>' : '');
+    }
+  };
+  S.ACT.sortpick = function (t) { var a = st.list[st.i]; var ok = (t.dataset.v === '1') === a.egg; if (ok) st.score++; st.ans = ok; redraw(); };
+  S.ACT.sortnext = function () { st.i++; st.ans = null; redraw(); };
+  S.ACT.sortagain = function () { GM.sort.start(); redraw(); };
+
+  /* ---------- 2. Baby Match ---------- */
+  GM.match = {
+    start: function () {
+      var p = shuffle(D.PAIRS).slice(0, 5);
+      st = { pairs: p, left: shuffle(p.map(function (x, i) { return i; })), right: shuffle(p.map(function (x, i) { return i; })), sel: null, done: {}, tries: 0 };
+    },
+    html: function () {
+      var n = Object.keys(st.done).length;
+      if (n === st.pairs.length) {
+        setTimeout(S.celebrate, 100);
+        return '<h2 style="text-align:center">All matched in ' + st.tries + ' tries!</h2><div class="row" style="justify-content:center"><button class="btn" data-act="matchagain">Play again</button></div>';
+      }
+      return '<p class="muted">Tap a parent, then tap its baby. Matched: ' + n + ' of ' + st.pairs.length + '</p><div class="match"><div class="mcol">' +
+        st.left.map(function (i) { var p = st.pairs[i]; return '<button class="mbtn' + (st.done[i] ? ' done' : '') + (st.sel === i ? ' sel' : '') + '" data-act="mleft" data-i="' + i + '"><span style="font-size:28px">' + p[0] + '</span>' + p[1] + '</button>'; }).join('') +
+        '</div><div class="mcol">' + st.right.map(function (i) { var p = st.pairs[i]; return '<button class="mbtn' + (st.done[i] ? ' done' : '') + '" data-act="mright" data-i="' + i + '">' + p[2] + '</button>'; }).join('') + '</div></div>';
+    }
+  };
+  S.ACT.mleft = function (t) { var i = +t.dataset.i; if (st.done[i]) return; st.sel = i; redraw(); };
+  S.ACT.mright = function (t) {
+    var i = +t.dataset.i; if (st.done[i] || st.sel === null) return;
+    st.tries++;
+    if (i === st.sel) { st.done[i] = true; st.sel = null; redraw(); }
+    else { t.classList.add('shake'); st.sel = null; setTimeout(redraw, 350); }
+  };
+  S.ACT.matchagain = function () { GM.match.start(); redraw(); };
+
+  /* ---------- 3. Life Cycle Builder ---------- */
+  GM.order = {
+    start: function () { GM.order.set('hen'); },
+    set: function (k) { var n = D.LC[k].stages.length; st = { k: k, pool: shuffle(D.LC[k].stages.map(function (x, i) { return i; })), got: [], msg: '' }; },
+    html: function () {
+      var d = D.LC[st.k], n = d.stages.length, done = st.got.length === n;
+      if (done) setTimeout(S.celebrate, 100);
+      return '<div class="chips" style="flex-wrap:wrap;overflow:visible">' + ['hen', 'frog', 'cockroach', 'butterfly'].map(function (k) { return '<button class="chip" data-act="ordset" data-k="' + k + '" aria-pressed="' + (k === st.k) + '">' + D.LC[k].name + '</button>'; }).join('') + '</div>' +
+        '<p class="muted">Tap the stages in order, starting with the egg.</p>' +
+        '<div class="slots">' + d.stages.map(function (s, i) { var f = i < st.got.length; return '<div class="slot' + (f ? ' f' : '') + '">' + (f ? '<span class="vis">' + s.v + '</span>' + esc(s.s) : (i + 1)) + '</div>'; }).join('') + '</div>' +
+        (done ? '<div class="fb ok"><b>You built the ' + d.title.toLowerCase() + '!</b>' + (st.k === 'frog' || st.k === 'butterfly' ? 'This life cycle shows metamorphosis.' : 'Great job.') + '</div>' :
+          '<div class="pool">' + st.pool.filter(function (i) { return st.got.indexOf(i) < 0; }).map(function (i) { var s = d.stages[i]; return '<button class="pbtn" data-act="ordpick" data-i="' + i + '"><span class="vis">' + s.v + '</span>' + esc(s.s) + '</button>'; }).join('') + '</div><p class="msg hint" style="font-weight:800">' + esc(st.msg) + '</p>') +
+        '<div class="row"><button class="btn ghost sm" data-act="ordset" data-k="' + st.k + '">Shuffle again</button></div>';
+    }
+  };
+  S.ACT.ordset = function (t) { GM.order.set(t.dataset.k); redraw(); };
+  S.ACT.ordpick = function (t) {
+    var i = +t.dataset.i;
+    if (i === st.got.length) { st.got.push(i); st.msg = ''; redraw(); }
+    else { st.msg = 'Not yet. Which stage comes ' + (st.got.length ? 'after ' + D.LC[st.k].stages[st.got.length - 1].s : 'first') + '?'; t.classList.add('shake'); var m = $('.msg'); if (m) m.textContent = st.msg; }
+  };
+
+  /* ---------- 4. Crossword ---------- */
+  var cells;
+  function xwBuild() {
+    cells = {};
+    D.CROSS.forEach(function (w) {
+      for (var k = 0; k < w.ans.length; k++) {
+        var r = w.d === 'A' ? w.r : w.r + k, c = w.d === 'A' ? w.c + k : w.c, key = r + ',' + c;
+        if (!cells[key]) cells[key] = { r: r, c: c, ch: w.ans[k], words: [], n: null };
+        else if (cells[key].ch !== w.ans[k]) throw new Error('crossword clash at ' + key);
+        cells[key].words.push(w);
+        if (k === 0) cells[key].n = w.n;
+      }
+    });
+  }
+  GM.cross = {
+    start: function () { xwBuild(); st = { dir: 'A', cur: null, word: null }; },
+    html: function () {
+      var g = '';
+      for (var r = 0; r < 8; r++) for (var c = 0; c < 8; c++) {
+        var cell = cells[r + ',' + c];
+        g += cell ? '<div class="xc">' + (cell.n ? '<span class="xn">' + cell.n + '</span>' : '') + '<input type="text" maxlength="1" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Row ' + (r + 1) + ' column ' + (c + 1) + '" data-r="' + r + '" data-c="' + c + '"></div>' : '<div class="xc"></div>';
+      }
+      return '<p class="muted">Type a letter in each box. Tap a clue to jump to it.</p>' +
+        '<div class="xw-wrap"><div class="xw" id="xw">' + g + '</div><div class="clues">' +
+        '<h3>Across</h3>' + D.CROSS.filter(function (w) { return w.d === 'A'; }).map(clueBtn).join('') +
+        '<h3 style="margin-top:6px">Down</h3>' + D.CROSS.filter(function (w) { return w.d === 'D'; }).map(clueBtn).join('') + '</div></div>' +
+        '<div class="row"><button class="btn" data-act="xcheck">Check</button><button class="btn ghost" data-act="xreveal">Show answers</button><button class="btn ghost" data-act="xclear">Clear</button></div><p class="msg" id="xmsg"></p>';
+    },
+    init: function () {
+      var xw = $('#xw');
+      xw.addEventListener('focusin', function (e) { var i = e.target; if (i.tagName === 'INPUT') setCur(i); });
+      xw.addEventListener('click', function (e) { var i = e.target; if (i.tagName === 'INPUT' && i === xwInput(st.cur)) { var cell = cells[i.dataset.r + ',' + i.dataset.c]; if (cell.words.length > 1) { st.dir = st.dir === 'A' ? 'D' : 'A'; setCur(i); } } });
+      xw.addEventListener('input', function (e) {
+        var i = e.target; i.value = i.value.replace(/[^a-zA-Z]/g, '').slice(-1).toUpperCase(); i.classList.remove('ok', 'no');
+        if (i.value) stepCell(i, 1);
+      });
+      xw.addEventListener('keydown', function (e) {
+        var i = e.target;
+        if (e.key === 'Backspace' && !i.value) { e.preventDefault(); stepCell(i, -1); }
+        else if (e.key === 'ArrowRight') { st.dir = 'A'; e.preventDefault(); move(i, 0, 1); }
+        else if (e.key === 'ArrowLeft') { st.dir = 'A'; e.preventDefault(); move(i, 0, -1); }
+        else if (e.key === 'ArrowDown') { st.dir = 'D'; e.preventDefault(); move(i, 1, 0); }
+        else if (e.key === 'ArrowUp') { st.dir = 'D'; e.preventDefault(); move(i, -1, 0); }
+      });
+    }
+  };
+  function clueBtn(w) { return '<button class="clue t-violet" data-act="xclue" data-r="' + w.r + '" data-c="' + w.c + '" data-d="' + w.d + '"><b>' + w.n + '</b>' + esc(w.clue) + '</button>'; }
+  function xwInput(key) { return key ? $('#xw input[data-r="' + key.split(',')[0] + '"][data-c="' + key.split(',')[1] + '"]') : null; }
+  function wordAt(cell) { return cell.words.filter(function (w) { return w.d === st.dir; })[0] || cell.words[0]; }
+  function setCur(i) {
+    var key = i.dataset.r + ',' + i.dataset.c, cell = cells[key];
+    var w = wordAt(cell); st.dir = w.d; st.cur = key; st.word = w;
+    $$('#xw input').forEach(function (x) { x.classList.remove('act', 'cur'); });
+    for (var k = 0; k < w.ans.length; k++) { var x = $('#xw input[data-r="' + (w.d === 'A' ? w.r : w.r + k) + '"][data-c="' + (w.d === 'A' ? w.c + k : w.c) + '"]'); if (x) x.classList.add('act'); }
+    i.classList.add('cur');
+  }
+  function stepCell(i, d) {
+    var w = st.word; if (!w) return;
+    var r = +i.dataset.r + (w.d === 'D' ? d : 0), c = +i.dataset.c + (w.d === 'A' ? d : 0);
+    var n = $('#xw input[data-r="' + r + '"][data-c="' + c + '"]');
+    if (n && cells[r + ',' + c] && cells[r + ',' + c].words.indexOf(w) >= 0) n.focus();
+  }
+  function move(i, dr, dc) { var n = $('#xw input[data-r="' + (+i.dataset.r + dr) + '"][data-c="' + (+i.dataset.c + dc) + '"]'); if (n) n.focus(); }
+  S.ACT.xclue = function (t) { st.dir = t.dataset.d; var i = $('#xw input[data-r="' + t.dataset.r + '"][data-c="' + t.dataset.c + '"]'); if (i) { i.focus(); setCur(i); } };
+  S.ACT.xcheck = function () {
+    var ok = 0, tot = 0, empty = 0;
+    $$('#xw input').forEach(function (i) {
+      var ch = cells[i.dataset.r + ',' + i.dataset.c].ch; tot++;
+      i.classList.remove('ok', 'no');
+      if (!i.value) { empty++; return; }
+      if (i.value === ch) { ok++; i.classList.add('ok'); } else i.classList.add('no');
+    });
+    var m = $('#xmsg');
+    if (ok === tot) { m.className = 'msg ok'; m.textContent = 'Perfect! The crossword is complete.'; S.celebrate(); }
+    else { m.className = 'msg hint'; m.textContent = ok + ' of ' + tot + ' letters are right. ' + (empty ? empty + ' boxes are empty. ' : '') + 'Red boxes need another try.'; }
+  };
+  S.ACT.xreveal = function () { $$('#xw input').forEach(function (i) { i.value = cells[i.dataset.r + ',' + i.dataset.c].ch; i.classList.remove('no'); i.classList.add('ok'); }); var m = $('#xmsg'); m.className = 'msg hint'; m.textContent = 'Here are all the answers.'; };
+  S.ACT.xclear = function () { $$('#xw input').forEach(function (i) { i.value = ''; i.classList.remove('ok', 'no'); }); $('#xmsg').textContent = ''; };
+
+  /* ---------- 5. Riddles ---------- */
+  GM.riddle = {
+    start: function () { st = { i: 0, got: {} }; },
+    html: function () {
+      var r = D.RIDDLES[st.i], solved = st.got[st.i];
+      return '<p class="muted"><b>Riddle ' + (st.i + 1) + ' of ' + D.RIDDLES.length + '</b></p><p class="q-text">' + esc(r.q) + '</p>' +
+        '<div class="rid"><label class="sr" for="rin">Your answer</label><input type="text" id="rin" autocomplete="off" placeholder="Type your answer" value="' + (solved ? esc(r.show) : '') + '"><p class="msg' + (solved ? ' ok' : '') + '" id="rmsg">' + (solved ? 'Correct!' : '') + '</p>' +
+        '<div class="row"><button class="btn" data-act="rcheck">Check</button><button class="btn ghost" data-act="rhint">Hint</button><button class="btn ghost" data-act="rshow">Show answer</button></div></div>' +
+        '<div class="row" style="justify-content:space-between"><button class="btn ghost sm" data-act="rprev"' + (st.i === 0 ? ' disabled style="opacity:.4"' : '') + '>Back</button><button class="btn ghost sm" data-act="rnext"' + (st.i === D.RIDDLES.length - 1 ? ' disabled style="opacity:.4"' : '') + '>Next riddle</button></div>';
+    },
+    init: function () { var i = $('#rin'); if (i) i.addEventListener('keydown', function (e) { if (e.key === 'Enter') S.ACT.rcheck(); }); }
+  };
+  var norm = function (s) { return s.toLowerCase().replace(/[^a-z ]/g, '').trim(); };
+  S.ACT.rcheck = function () {
+    var r = D.RIDDLES[st.i], v = norm($('#rin').value), m = $('#rmsg');
+    if (!v) { m.className = 'msg hint'; m.textContent = 'Type something first.'; return; }
+    if (r.a.indexOf(v) >= 0) { st.got[st.i] = true; m.className = 'msg ok'; m.textContent = 'Correct! ' + r.show + '.'; S.celebrate(); }
+    else if (r.near && r.near[v]) { m.className = 'msg hint'; m.textContent = r.near[v]; }
+    else { m.className = 'msg no'; m.textContent = 'Not yet. Try again or tap Hint.'; }
+  };
+  S.ACT.rhint = function () { var r = D.RIDDLES[st.i], m = $('#rmsg'); m.className = 'msg hint'; m.textContent = 'It starts with "' + r.show[0] + '" and has ' + r.show.replace(/ \(.*\)/, '').length + ' letters.'; };
+  S.ACT.rshow = function () { var r = D.RIDDLES[st.i], m = $('#rmsg'); $('#rin').value = r.show; m.className = 'msg hint'; m.textContent = 'The answer is ' + r.show + '.'; };
+  S.ACT.rnext = function () { if (st.i < D.RIDDLES.length - 1) { st.i++; redraw(); } };
+  S.ACT.rprev = function () { if (st.i > 0) { st.i--; redraw(); } };
+
+  /* ---------- 6. Animal Detective (flowchart) ---------- */
+  var FLOW = {
+    q1: { q: 'Is it an egg-laying animal?', y: 'q2', n: 'q3' },
+    q2: { q: 'Does it lay eggs in large clusters that float on water?', y: 'a:Frog 🐸', n: 'a:Hen 🐔' },
+    q3: { q: 'It is a mammal. Does it have hair on its body?', y: 'a:Dog 🐶', n: 'a:Whale 🐋' }
+  };
+  GM.detect = {
+    start: function () { st = { node: 'q1', trail: [] }; },
+    html: function () {
+      var nd = st.node;
+      if (nd.indexOf('a:') === 0) {
+        var a = nd.slice(2); setTimeout(S.celebrate, 100);
+        return '<p class="muted">Your animal is...</p><div class="big-e">' + a.split(' ')[1] + '</div><h2 style="text-align:center">' + a.split(' ')[0] + '!</h2>' +
+          '<div class="fb ok"><b>How I guessed</b>' + st.trail.map(function (t) { return esc(t); }).join(' → ') + '</div><div class="row" style="justify-content:center"><button class="btn" data-act="detagain">Play again</button></div>';
+      }
+      return '<p class="muted">Think of one animal: <b>Whale, Frog, Hen or Dog</b>. Do not tell me. Answer my questions.</p><p class="det-q">' + esc(FLOW[nd].q) + '</p>' +
+        '<div class="two"><button class="btn choice" data-act="detans" data-v="y">Yes</button><button class="btn choice" data-act="detans" data-v="n" style="--c:var(--coral);--on:var(--on-coral)">No</button></div>';
+    }
+  };
+  S.ACT.detans = function (t) { var f = FLOW[st.node]; st.trail.push(f.q.replace('It is a mammal. ', '') + ' ' + (t.dataset.v === 'y' ? 'Yes' : 'No')); st.node = f[t.dataset.v]; redraw(); };
+  S.ACT.detagain = function () { GM.detect.start(); redraw(); };
+
+  /* ---------- 7. Egg-hunt expedition ---------- */
+  var HUNT = ['A bird\'s nest', 'Bird eggs in a nest (look only!)', 'Insect eggs on a stem or leaf', 'Frogspawn in a pond (look only!)', 'A caterpillar on a leaf', 'A butterfly', 'A tadpole'];
+  GM.hunt = {
+    start: function () { st = { found: S.store.get('hunt', {}), note: S.store.get('huntNote', '') }; },
+    html: function () {
+      var n = HUNT.filter(function (x, i) { return st.found[i]; }).length;
+      return '<p>Visit a nearby park with a grown-up. Look for nests and eggs of birds. Insect eggs can be found on stems or leaves. If there is a pond, look for frogs\' eggs. <b>Do not touch the eggs.</b></p>' +
+        '<h3>I found... (' + n + ' of ' + HUNT.length + ')</h3><div style="display:flex;flex-direction:column;gap:8px">' +
+        HUNT.map(function (x, i) { return '<label class="check"><input type="checkbox" data-act="huntcheck" data-i="' + i + '"' + (st.found[i] ? ' checked' : '') + '>' + esc(x) + '</label>'; }).join('') + '</div>' +
+        '<h3>My notebook</h3><label class="sr" for="hnote">Notes</label><textarea class="notes" id="hnote" rows="4" placeholder="What did you see? Where? Write it here and in your Science notebook.">' + esc(st.note) + '</textarea>' +
+        '<p class="muted" style="font-size:14px">Saved on this device only.</p>';
+    },
+    init: function () { $('#hnote').addEventListener('input', function (e) { st.note = e.target.value; S.store.set('huntNote', st.note); }); }
+  };
+  document.addEventListener('change', function (e) {
+    var t = e.target; if (t.dataset && t.dataset.act === 'huntcheck') {
+      st.found[t.dataset.i] = t.checked; S.store.set('hunt', st.found);
+      var h = $('#gbody h3'); var n = HUNT.filter(function (x, i) { return st.found[i]; }).length;
+      var hs = $$('#gbody h3'); if (hs[0]) hs[0].textContent = 'I found... (' + n + ' of ' + HUNT.length + ')';
+    }
+  });
+})(window.SW);
+</script>
+<script>window.SW.boot();</script>
+
+</body></html>
