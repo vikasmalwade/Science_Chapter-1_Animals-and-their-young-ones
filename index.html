@@ -328,6 +328,139 @@ button{font:inherit;color:inherit}
 .ft-card b{color:var(--ct)}
 @media (max-width:520px){.ft-cols{grid-template-columns:1fr}.lc-panel{flex-direction:column;align-items:flex-start}}
 </style>
+<style>
+/* ===================== PREMIUM MOTION LAYER ===================== */
+:root{--ease-out:cubic-bezier(.2,.9,.2,1);--ease-spring:cubic-bezier(.3,1.5,.5,1)}
+body{position:relative;transition:background .4s}
+.wrap{position:relative;z-index:1}
+
+/* ambient drifting colour orbs behind everything */
+.ambient{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.orb{position:absolute;border-radius:50%;width:60vmax;height:60vmax;opacity:.17;will-change:transform;background:radial-gradient(circle,var(--o) 0%,transparent 62%)}
+.orb.a{--o:var(--blue);left:-22vmax;top:-20vmax;animation:drift1 26s ease-in-out infinite alternate}
+.orb.b{--o:var(--sun);right:-26vmax;top:18vh;animation:drift2 32s ease-in-out infinite alternate}
+.orb.c{--o:var(--green);left:8vw;bottom:-32vmax;animation:drift3 29s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(20vmax,16vmax) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-18vmax,-12vmax) scale(.9)}}
+@keyframes drift3{to{transform:translate(16vmax,-14vmax) scale(1.2)}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .orb{opacity:.11}}
+:root[data-theme="dark"] .orb{opacity:.11}
+
+/* scroll progress */
+.progress{position:fixed;top:0;left:0;right:0;height:4px;z-index:60;transform-origin:0 50%;transform:scaleX(0);pointer-events:none;border-radius:0 4px 4px 0;background:linear-gradient(90deg,var(--green),var(--blue),var(--violet),var(--coral))}
+
+/* page-change curtain */
+.curtain{position:fixed;inset:0;z-index:15;pointer-events:none;background:var(--cbg);display:grid;place-items:center;clip-path:circle(0px at 50% 100%)}
+.curtain svg{width:88px;height:88px;fill:none;stroke:var(--c);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* sliding tab pill */
+.tabs{position:relative}
+.tab{position:relative;z-index:1;transition:color .3s}
+.tab[aria-current="page"]{background:transparent;color:var(--on)}
+.tab[aria-current="page"] svg{animation:tabpop .55s var(--ease-spring)}
+.tab-pill{position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:0;border-radius:20px;background:var(--c);box-shadow:0 6px 16px -6px var(--c);transition:transform .5s var(--ease-spring),width .5s var(--ease-spring),background-color .3s,box-shadow .3s}
+@keyframes tabpop{0%{transform:scale(.6) rotate(-12deg)}60%{transform:scale(1.25) rotate(6deg)}100%{transform:none}}
+
+/* ripple + press + shine on controls */
+.btn,.chip,.opt,.q-opt,.mbtn,.pbtn,.size,.go-card,.g-card,.clue,.check{position:relative;overflow:hidden}
+.ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);pointer-events:none;animation:ripple .65s ease-out forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+.btn:not(.ghost)::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.38) 50%,transparent 65%);transform:translateX(-130%)}
+@media (hover:hover){
+  .btn:hover{transform:translateY(-2px)}
+  .btn:not(.ghost):hover{box-shadow:0 10px 22px -10px var(--c,var(--green))}
+  .btn:not(.ghost):hover::after{transform:translateX(130%);transition:transform .75s var(--ease-out)}
+}
+.btn:active{transform:translateY(1px) scale(.97)}
+.chip{transition:background .25s,color .25s,border-color .25s,transform .15s}
+.chip:active{transform:scale(.94)}
+
+/* tilt + glare cards */
+.go-card,.g-card,.size{transition:transform .25s var(--ease-out),box-shadow .25s}
+.go-card::after,.g-card::after,.size::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.45),transparent 60%)}
+.go-card:hover::after,.g-card:hover::after,.size:hover::after{opacity:.7}
+.go-card:hover .ic{animation:wiggle .6s}
+.g-card:hover .ga,.g-card:hover .e{animation:wiggle .7s}
+.tile:hover .e{animation:wiggle .6s}
+@keyframes wiggle{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(-9deg) scale(1.12)}60%{transform:rotate(7deg) scale(1.08)}}
+
+/* scroll reveal */
+.rv{opacity:0;transform:translateY(26px) scale(.985);transition:opacity .7s ease,transform .85s var(--ease-out);transition-delay:var(--rd,0ms)}
+.rv.in{opacity:1;transform:none}
+
+/* animated headline words */
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding:0 .04em .16em;margin-bottom:-.16em}
+.w>span{display:inline-block;transform:translateY(115%) rotate(4deg);animation:wordUp .75s var(--ease-out) forwards;animation-delay:calc(var(--d)*75ms + 120ms)}
+@keyframes wordUp{to{transform:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;z-index:-1;pointer-events:none}
+.hero::before{width:380px;height:380px;right:-90px;top:-130px;background:radial-gradient(circle,rgba(255,255,255,.6),transparent 65%);animation:heroGlow 9s ease-in-out infinite alternate}
+.hero::after{width:320px;height:320px;left:-100px;bottom:-140px;background:radial-gradient(circle,var(--c),transparent 68%);opacity:.2;animation:heroGlow 12s ease-in-out infinite alternate-reverse}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero::before{background:radial-gradient(circle,rgba(255,255,255,.1),transparent 65%)}}
+:root[data-theme="dark"] .hero::before{background:radial-gradient(circle,rgba(255,255,255,.1),transparent 65%)}
+@keyframes heroGlow{to{transform:translate(-40px,34px) scale(1.18)}}
+.bub{position:absolute;bottom:-30px;border-radius:50%;background:var(--c);opacity:0;pointer-events:none;z-index:-1;animation:bub linear infinite}
+@keyframes bub{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.28}100%{transform:translateY(-520px) translateX(var(--bx,0px)) scale(1.15);opacity:0}}
+.hero-text>*{animation:riseIn .8s var(--ease-out) both}
+.hero-text>.eyebrow{animation-delay:.05s}
+.hero-text>h1{animation:none}
+.hero-text>.lead{animation-delay:.6s}
+.hero-text>.row{animation-delay:.75s}
+.egg-stage{position:relative;animation:dropIn 1.1s var(--ease-spring) .25s both}
+@keyframes riseIn{from{opacity:0;transform:translateY(22px)}}
+@keyframes dropIn{from{opacity:0;transform:translateY(-70px) scale(.8)}}
+.egg::before{content:"";position:absolute;left:-22%;right:-22%;top:-6%;bottom:-6%;z-index:-1;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,200,60,.6),transparent 62%);animation:eggGlow 3.2s ease-in-out infinite}
+.egg.open::before{animation-duration:1.4s}
+@keyframes eggGlow{0%,100%{transform:scale(.85);opacity:.55}50%{transform:scale(1.08);opacity:1}}
+.spk{position:absolute;width:15px;height:15px;pointer-events:none;z-index:3;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+
+/* idle life for illustrations */
+.scene .fl{animation:bob var(--d,4s) ease-in-out var(--dl,0s) infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+.scene .cl{animation:cloud var(--d,40s) ease-in-out var(--dl,0s) infinite alternate}
+.scene .sn{transform-box:fill-box;transform-origin:center;animation:sunPulse 5s ease-in-out infinite}
+@keyframes bob{from{transform:translateY(0) rotate(-1.2deg)}to{transform:translateY(-5px) rotate(1.2deg)}}
+@keyframes cloud{to{transform:translateX(70px)}}
+@keyframes sunPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.way .big svg{animation:floaty 4.5s ease-in-out infinite}
+.way:nth-child(2) .big svg{animation-delay:-2s}
+.big-e{animation:floaty 3s ease-in-out infinite}
+.lc-panel .pa svg,.ring-art svg{animation:floaty 3.2s ease-in-out infinite}
+.lc-panel .pt{animation:slideIn .45s var(--ease-out)}
+@keyframes slideIn{from{opacity:0;transform:translateX(16px)}}
+.ring-svg path:nth-child(odd){animation:dashflow 1.2s linear infinite}
+@keyframes dashflow{to{stroke-dashoffset:-4}}
+.node{transition:transform .2s,box-shadow .2s,background .2s,border-color .2s}
+.node.on::after{content:"";position:absolute;inset:-5px;border-radius:22px;border:3px solid var(--c);pointer-events:none;animation:ping 1.6s ease-out infinite}
+@keyframes ping{from{transform:scale(1);opacity:.7}to{transform:scale(1.26);opacity:0}}
+.egg-x .p-yolk{transform-box:fill-box;transform-origin:center;animation:yolk 3.4s ease-in-out infinite}
+.egg-x .p-spot{transform-box:fill-box;transform-origin:center;animation:yolk 2.2s ease-in-out infinite reverse}
+@keyframes yolk{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+
+/* feedback */
+.q-opt.right,.opt.right,.mbtn.done{animation:pop .5s var(--ease-spring)}
+.q-opt.wrong,.opt.wrong{animation:shakeX .42s}
+.fb,.qa-a,.msg.ok{animation:fbIn .4s var(--ease-out)}
+@keyframes pop{0%{transform:scale(.95)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes shakeX{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes fbIn{from{opacity:0;transform:translateY(10px) scale(.98)}}
+.dot{transition:transform .2s,background .2s}
+.dot.cur{transform:scale(1.15)}
+.stars svg{transform-box:fill-box;transform-origin:center}
+.stars svg.on{animation:starPop .7s var(--ease-spring) backwards}
+.stars svg:nth-child(1).on{animation-delay:.25s}
+.stars svg:nth-child(2).on{animation-delay:.5s}
+.stars svg:nth-child(3).on{animation-delay:.75s}
+@keyframes starPop{0%{transform:scale(0) rotate(-100deg)}}
+.score{animation:scoreIn .7s var(--ease-spring)}
+@keyframes scoreIn{from{transform:scale(.5);opacity:0}}
+.cf{position:fixed;z-index:70;pointer-events:none;width:10px;height:14px;border-radius:2px;will-change:transform}
+.cf.s{clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);width:16px;height:16px;border-radius:0}
+.cf.o{border-radius:50%;width:11px;height:11px}
+
+</style>
 <main id="view" class="wrap" aria-live="off"></main>
 <nav class="tabbar" aria-label="Main sections"><div class="tabs" id="tabs"></div></nav>
 <script>
@@ -1482,6 +1615,215 @@ window.SW = (function () {
     }
   });
 })(window.SW);
+</script>
+<script>
+/* ===================== PREMIUM MOTION LAYER (JS) ===================== */
+(function (S) {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !S || !document.body.animate) return;           // everything below is skipped when motion is unwanted
+  var NS = 'http://www.w3.org/2000/svg';
+  var $ = S.$, $$ = S.$$, esc = S.esc;
+  var hoverOK = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ---------- ambient orbs + scroll progress ---------- */
+  var amb = document.createElement('div'); amb.className = 'ambient'; amb.setAttribute('aria-hidden', 'true');
+  amb.innerHTML = '<i class="orb a"></i><i class="orb b"></i><i class="orb c"></i>';
+  document.body.insertBefore(amb, document.body.firstChild);
+  var prog = document.createElement('div'); prog.className = 'progress'; prog.setAttribute('aria-hidden', 'true'); document.body.appendChild(prog);
+  var curtain = document.createElement('div'); curtain.className = 'curtain'; curtain.setAttribute('aria-hidden', 'true'); document.body.appendChild(curtain);
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      prog.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- sliding tab pill ---------- */
+  var tabs = $('#tabs'), pill = document.createElement('span'); pill.className = 'tab-pill t-green'; pill.setAttribute('aria-hidden', 'true');
+  function movePill(id, instant) {
+    var tab = $('.tab[data-to="' + id + '"]'); if (!tab) return;
+    if (pill.parentNode !== tabs) tabs.insertBefore(pill, tabs.firstChild);
+    var meta = S.TABS.filter(function (t) { return t.id === id; })[0];
+    pill.className = 'tab-pill t-' + meta.color;
+    if (instant) pill.style.transition = 'none';
+    pill.style.width = tab.offsetWidth + 'px';
+    pill.style.transform = 'translateX(' + tab.offsetLeft + 'px)';
+    if (instant) { void pill.offsetWidth; pill.style.transition = ''; }
+  }
+  window.addEventListener('resize', function () { if (S.current) movePill(S.current, true); });
+
+  /* ---------- page transition: colour curtain rises from the tab bar ---------- */
+  var origGo = S.go, first = true, busy = false, pending = null;
+  S.go = function (id) {
+    if (!S.VIEWS[id]) id = 'home';
+    if (first) { first = false; origGo(id); movePill(id, true); enhance(); return; }
+    if (busy) { pending = id; return; }
+    busy = true; movePill(id);
+    var meta = S.TABS.filter(function (t) { return t.id === id; })[0];
+    curtain.className = 'curtain t-' + meta.color;
+    curtain.innerHTML = '<svg viewBox="0 0 24 24">' + S.ICONS[id] + '</svg>';
+    var icon = curtain.firstChild;
+    var a = curtain.animate([{ clipPath: 'circle(0px at 50% 100%)' }, { clipPath: 'circle(150% at 50% 100%)' }], { duration: 330, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' });
+    icon.animate([{ transform: 'scale(.3) rotate(-30deg)', opacity: 0 }, { transform: 'scale(1) rotate(0)', opacity: 1 }], { duration: 330, easing: 'cubic-bezier(.3,1.5,.5,1)', fill: 'forwards' });
+    a.onfinish = function () {
+      origGo(id); enhance();
+      var b = curtain.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, delay: 70, easing: 'ease-out', fill: 'forwards' });
+      b.onfinish = function () {
+        a.cancel(); b.cancel(); busy = false;
+        if (pending) { var p = pending; pending = null; S.go(p); }
+      };
+    };
+  };
+
+  /* ---------- word-by-word headline ---------- */
+  function split(h) {
+    if (h.dataset.sp) return; h.dataset.sp = '1';
+    var t = h.textContent.trim(); h.setAttribute('aria-label', t);
+    h.innerHTML = t.split(/\s+/).map(function (w, i) { return '<span class="w" aria-hidden="true"><span style="--d:' + i + '">' + esc(w) + '</span></span>'; }).join(' ');
+  }
+
+  /* ---------- scenes come alive ---------- */
+  function walk(parent, st) {
+    Array.prototype.slice.call(parent.children).forEach(function (n) {
+      if (n.tagName === 'g' && n.getAttribute('transform')) {
+        var cloud = n.getAttribute('fill') === '#fff';
+        var w = document.createElementNS(NS, 'g'); w.setAttribute('class', cloud ? 'cl' : 'fl');
+        while (n.firstChild) w.appendChild(n.firstChild); n.appendChild(w);
+        w.style.setProperty('--d', (cloud ? 30 + st.i * 8 : 3 + (st.i % 4) * .8) + 's');
+        w.style.setProperty('--dl', (-(st.i * .9)) + 's'); st.i++;
+      } else if (n.tagName === 'g') walk(n, st);
+      else if (n.tagName === 'circle' && /#FFD04D|#FFE9A0/i.test(n.getAttribute('fill') || '')) n.classList.add('sn');
+    });
+  }
+  function decorate(svg) { if (svg.dataset.dec) return; svg.dataset.dec = '1'; walk(svg, { i: 0 }); }
+
+  /* ---------- hero bubbles ---------- */
+  function bubbles(hero) {
+    if (hero.dataset.bub) return; hero.dataset.bub = '1';
+    for (var i = 0; i < 10; i++) {
+      var b = document.createElement('span'), s = 10 + Math.random() * 26;
+      b.className = 'bub'; b.setAttribute('aria-hidden', 'true');
+      b.style.cssText = 'left:' + (Math.random() * 100) + '%;width:' + s + 'px;height:' + s + 'px;animation-duration:' + (8 + Math.random() * 8) + 's;animation-delay:-' + (Math.random() * 14) + 's;--bx:' + ((Math.random() - .5) * 90) + 'px';
+      hero.appendChild(b);
+    }
+  }
+
+  /* ---------- scroll reveal ---------- */
+  var REV = '.card:not(.q-card),.go-card,.g-card,.size,.way,.scene-wrap,.tile,.word,.remember,.qa-group>.sec-head,.lsec>.sec-head,.cmp>div,.miss>div,.pair';
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    var k = 0;
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target; io.unobserve(el);
+      el.style.setProperty('--rd', Math.min(k++, 7) * 70 + 'ms');
+      el.classList.add('in');
+      setTimeout(function () { el.classList.remove('rv', 'in'); el.style.removeProperty('--rd'); }, 1400);
+    });
+  }, { threshold: .06, rootMargin: '0px 0px -5% 0px' }) : null;
+  function reveal(root) {
+    if (!io) return;
+    var g = $('#gbody');
+    $$(REV, root).forEach(function (el) {
+      if (el.dataset.rv || el.closest('.hero') || (g && g !== el && g.contains(el))) return;
+      el.dataset.rv = '1'; el.classList.add('rv'); io.observe(el);
+    });
+  }
+
+  /* ---------- score count-up ---------- */
+  function countUp(el) {
+    if (el.dataset.cu) return; var m = el.textContent.match(/^\s*(\d+)\s*\/\s*(\d+)\s*$/); if (!m) return;
+    el.dataset.cu = '1'; var to = +m[1], tot = m[2], t0 = performance.now();
+    (function step(t) {
+      var p = Math.min(1, (t - t0 - 250) / 800); if (p < 0) p = 0;
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + ' / ' + tot;
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  function enhance() {
+    var v = $('#view'); if (!v) return;
+    $$('h1', v).forEach(split);
+    $$('svg.scene', v).forEach(decorate);
+    $$('.hero', v).forEach(bubbles);
+    $$('.score', v).forEach(countUp);
+    reveal(v);
+    onScroll();
+  }
+  var raf = 0;
+  new MutationObserver(function () { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; enhance(); }); })
+    .observe($('#view'), { childList: true, subtree: true });
+
+  /* ---------- better confetti: stars, dots and strips burst from the middle ---------- */
+  S.celebrate = function () {
+    var cols = ['#F2B01E', '#17824F', '#3659CC', '#C23520', '#6A47D6', '#2BB3C0', '#FF7AA8'];
+    var W = window.innerWidth, H = window.innerHeight;
+    for (var i = 0; i < 70; i++) {
+      var el = document.createElement('i'), kind = i % 3 === 0 ? ' s' : i % 3 === 1 ? ' o' : '';
+      el.className = 'cf' + kind; el.style.background = cols[i % cols.length];
+      el.style.left = (W / 2 - 6) + 'px'; el.style.top = (H * .42) + 'px';
+      document.body.appendChild(el);
+      var ang = (Math.random() * Math.PI) + Math.PI, sp = 120 + Math.random() * Math.min(420, W * .6);
+      var dx = Math.cos(ang) * sp, dy = Math.sin(ang) * sp * .9, rot = (Math.random() - .5) * 1080;
+      var a = el.animate([
+        { transform: 'translate(0,0) rotate(0) scale(.4)', opacity: 1 },
+        { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot * .4 + 'deg) scale(1)', opacity: 1, offset: .38 },
+        { transform: 'translate(' + dx * 1.35 + 'px,' + (H * .6) + 'px) rotate(' + rot + 'deg) scale(.9)', opacity: 0 }
+      ], { duration: 1700 + Math.random() * 1100, easing: 'cubic-bezier(.2,.7,.4,1)', delay: Math.random() * 150, fill: 'forwards' });
+      a.onfinish = (function (n) { return function () { n.remove(); }; })(el);
+    }
+  };
+
+  /* ---------- egg tap: sparkle burst + squash ---------- */
+  var oldEgg = S.ACT.egg;
+  S.ACT.egg = function (t, e) {
+    oldEgg(t, e);
+    var egg = document.getElementById('egg'); if (!egg || !egg.classList.contains('open')) return;
+    egg.animate([{ transform: 'scale(1,1)' }, { transform: 'scale(1.1,.88)' }, { transform: 'scale(.94,1.08)' }, { transform: 'scale(1,1)' }], { duration: 520, easing: 'ease-out' });
+    var stage = egg.parentNode, cols = ['#FFD04D', '#FF9E7A', '#8DA8FF', '#7BD9A5', '#fff'];
+    var cx = egg.offsetLeft + egg.offsetWidth / 2, cy = egg.offsetTop + egg.offsetHeight * .45;
+    for (var i = 0; i < 14; i++) {
+      var s = document.createElement('i'); s.className = 'spk'; s.style.background = cols[i % cols.length];
+      s.style.left = (cx - 7) + 'px'; s.style.top = (cy - 7) + 'px'; stage.appendChild(s);
+      var ang = i / 14 * Math.PI * 2 + Math.random() * .4, d = 70 + Math.random() * 70, sc = .6 + Math.random() * 1.1;
+      var an = s.animate([
+        { transform: 'translate(0,0) scale(0) rotate(0)', opacity: 1 },
+        { transform: 'translate(' + Math.cos(ang) * d * .7 + 'px,' + Math.sin(ang) * d * .7 + 'px) scale(' + sc + ') rotate(90deg)', opacity: 1, offset: .5 },
+        { transform: 'translate(' + Math.cos(ang) * d + 'px,' + (Math.sin(ang) * d + 24) + 'px) scale(0) rotate(200deg)', opacity: 0 }
+      ], { duration: 850 + Math.random() * 300, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'forwards' });
+      an.onfinish = (function (n) { return function () { n.remove(); }; })(s);
+    }
+  };
+
+  /* ---------- ripple on press ---------- */
+  var RIP = '.btn,.chip,.opt,.q-opt,.mbtn,.pbtn,.size,.go-card,.g-card,.clue,.check,.node,.dot';
+  document.addEventListener('pointerdown', function (e) {
+    var el = e.target.closest(RIP); if (!el || el.disabled) return;
+    var r = el.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2;
+    var s = document.createElement('span'); s.className = 'ripple';
+    s.style.cssText = 'width:' + d + 'px;height:' + d + 'px;left:' + (e.clientX - r.left - d / 2) + 'px;top:' + (e.clientY - r.top - d / 2) + 'px';
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.appendChild(s); setTimeout(function () { s.remove(); }, 700);
+  }, { passive: true });
+
+  /* ---------- 3D tilt + glare on big cards (mouse only) ---------- */
+  if (hoverOK) {
+    var TILT = '.go-card,.g-card,.size';
+    document.addEventListener('pointermove', function (e) {
+      var el = e.target.closest(TILT); if (!el) return;
+      var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      el.style.setProperty('--mx', (x * 100) + '%'); el.style.setProperty('--my', (y * 100) + '%');
+      el.style.transform = 'perspective(700px) translateY(-4px) rotateX(' + ((.5 - y) * 7) + 'deg) rotateY(' + ((x - .5) * 9) + 'deg)';
+    }, { passive: true });
+    document.addEventListener('mouseout', function (e) {
+      var el = e.target.closest(TILT); if (el && !el.contains(e.relatedTarget)) el.style.transform = '';
+    });
+  }
+})(window.SW);
+
 </script>
 <script>window.SW.boot();</script>
 
